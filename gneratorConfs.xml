@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+  <classPathEntry location="E:\BaiduYunDownload\mysql-connector-java-5.1.20-bin.jar" />
+
+  <ibatorContext id="MySql2Tables" targetRuntime="Ibatis2Java2">
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://123.57.138.108:3306/dev2_p2p"
+        userId="root"
+        password="yrSuper001">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.wy.vas.domain" targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.wy.vas.xml"  targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <!-- type: IBATIS SPRING GENERIC-CI GENERIC-SI -->
+    <daoGenerator type="SPRING" targetPackage="com.wy.vas.dao"  targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+    </daoGenerator>
+
+    <table schema="dev2_p2p" tableName="coupon_product">
+    </table>
+    <table schema="dev2_p2p"  tableName="coupon_detail" ></table>
+  </ibatorContext>
+</ibatorConfiguration>

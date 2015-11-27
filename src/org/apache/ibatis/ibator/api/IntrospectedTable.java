@@ -528,25 +528,29 @@ public abstract class IntrospectedTable {
         
         setAttribute(ATTR_DAO_INTERFACE_PACKAGE, sb.toString());
     }
-
+    /**
+     * 生成dao implement的文件名
+     * **/
     private void calculateDAOImplementationType() {
         StringBuilder sb = new StringBuilder();
         sb.append(getDAOImplementationPackage());
         sb.append('.');
         sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("DAOImpl"); //$NON-NLS-1$
+        sb.append("DaoImpl"); //$NON-NLS-1$
 
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
 
         setAttribute(ATTR_DAO_IMPLEMENTATION_TYPE, fqjt);
     }
-
+    /**
+     * 生成dao 接口的文件名
+     * **/
     private void calculateDAOInterfaceType() {
         StringBuilder sb = new StringBuilder();
         sb.append(getDAOInterfacePackage());
         sb.append('.');
         sb.append(fullyQualifiedTable.getDomainObjectName());
-        sb.append("DAO"); //$NON-NLS-1$
+        sb.append("Dao"); //$NON-NLS-1$
 
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
 
