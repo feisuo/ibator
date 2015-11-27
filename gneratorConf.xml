@@ -30,8 +30,8 @@
       <property name="enableSubPackages" value="true" />
     </daoGenerator>
 
-    <table schema="orcl" tableName="qauth" domainObjectName="Customer" >
+    <table schema="orcl" tableName="coupon_product" domainObjectName="Customer" >
     </table>
-    <table schema="orcl"  tableName="qmenu" ></table>
+    <table schema="orcl"  tableName="coupon_detail" ></table>
   </ibatorContext>
 </ibatorConfiguration>
