@@ -626,7 +626,7 @@ public abstract class IntrospectedTable {
     private void calculateSqlMapFileName() {
         StringBuilder sb = new StringBuilder();
         sb.append(fullyQualifiedTable.getSqlMapNamespace());
-        sb.append("_SqlMap.xml"); //$NON-NLS-1$
+        sb.append(".xml"); //$NON-NLS-1$
 
         setAttribute(ATTR_SQL_MAP_FILE_NAME, sb.toString());
     }
