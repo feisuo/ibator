@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration
+  PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"
+  "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+
+<ibatorConfiguration>
+  <classPathEntry location="E:\BaiduYunDownload\mysql-connector-java-5.1.20-bin.jar" />
+
+  <ibatorContext id="MySql2Tables" targetRuntime="Ibatis2Java2">
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://localhost:3306/orcl"
+        userId="root"
+        password="feisuo">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="test.model" targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="test.xml"  targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <daoGenerator type="SPRING" targetPackage="test.dao"  targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+    </daoGenerator>
+
+    <table schema="orcl" tableName="qauth" domainObjectName="Customer" >
+    </table>
+    <table schema="orcl"  tableName="qmenu" ></table>
+  </ibatorContext>
+</ibatorConfiguration>
