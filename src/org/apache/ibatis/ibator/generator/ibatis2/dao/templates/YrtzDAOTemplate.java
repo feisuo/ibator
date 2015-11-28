@@ -42,32 +42,32 @@ public class YrtzDAOTemplate extends AbstractDAOTemplate {
 
     @Override
     protected void configureDeleteMethodTemplate() {
-        setDeleteMethodTemplate("getSqlMapClientTemplate().delete(\"{0}.{1}\", {2});"); //$NON-NLS-1$
+        setDeleteMethodTemplate("getSqlMapClient().delete(\"{0}.{1}\", {2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureInsertMethodTemplate() {
-        setInsertMethodTemplate("getSqlMapClientTemplate().insert(\"{0}.{1}\", {2});"); //$NON-NLS-1$
+        setInsertMethodTemplate("getSqlMapClient().insert(\"{0}.{1}\", {2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureQueryForListMethodTemplate() {
-        setQueryForListMethodTemplate("getSqlMapClientTemplate().queryForList(\"{0}.{1}\", {2});"); //$NON-NLS-1$
+        setQueryForListMethodTemplate("getSqlMapClient().queryForList(\"{0}.{1}\", {2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureQueryForObjectMethodTemplate() {
-        setQueryForObjectMethodTemplate("getSqlMapClientTemplate().queryForObject(\"{0}.{1}\", {2});"); //$NON-NLS-1$
+        setQueryForObjectMethodTemplate("getSqlMapClient().queryForObject(\"{0}.{1}\", {2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureSuperClass() {
         setSuperClass(new FullyQualifiedJavaType(
-            "org.springframework.orm.ibatis.support.SqlMapClientDaoSupport")); //$NON-NLS-1$
+            "com.wy.dao.impl.BaseDaoImpl")); //$NON-NLS-1$
     }
 
     @Override
     protected void configureUpdateMethodTemplate() {
-        setUpdateMethodTemplate("getSqlMapClientTemplate().update(\"{0}.{1}\", {2});"); //$NON-NLS-1$
+        setUpdateMethodTemplate("getSqlMapClient().update(\"{0}.{1}\", {2});"); //$NON-NLS-1$
     }
 }

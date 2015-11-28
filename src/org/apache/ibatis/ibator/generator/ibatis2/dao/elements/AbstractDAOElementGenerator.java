@@ -48,6 +48,9 @@ public abstract class AbstractDAOElementGenerator extends AbstractGenerator {
         this.daoTemplate = abstractDAOTemplate;
     }
     
+     /**
+      * 生成方法名
+      * **/
     public DAOMethodNameCalculator getDAOMethodNameCalculator() {
         if (dAOMethodNameCalculator == null) {
             String type = ibatorContext.getDaoGeneratorConfiguration().getProperty(
@@ -74,6 +77,9 @@ public abstract class AbstractDAOElementGenerator extends AbstractGenerator {
         return dAOMethodNameCalculator;
     }
     
+     /**
+      * 获取方法访问属性
+      * **/
     public JavaVisibility getExampleMethodVisibility() {
         if (exampleMethodVisibility == null) {
             String type = ibatorContext.getDaoGeneratorConfiguration().getProperty(

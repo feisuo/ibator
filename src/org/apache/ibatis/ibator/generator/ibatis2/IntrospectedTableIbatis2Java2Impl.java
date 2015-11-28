@@ -27,12 +27,13 @@ import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.generator.AbstractGenerator;
 import org.apache.ibatis.ibator.generator.AbstractJavaGenerator;
 import org.apache.ibatis.ibator.generator.AbstractXmlGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.dao.DAOGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.YrtzDAOGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.AbstractDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.GenericCIDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.GenericSIDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.IbatisDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.SpringDAOTemplate;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.YrtzDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.model.BaseRecordGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.ExampleGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.PrimaryKeyGenerator;
@@ -84,11 +85,13 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
             abstractDAOTemplate = new GenericCIDAOTemplate();
         } else if ("GENERIC-SI".equalsIgnoreCase(type)) { //$NON-NLS-1$
             abstractDAOTemplate = new GenericSIDAOTemplate();
+        }else if("YRTZ".equalsIgnoreCase(type)){
+        	abstractDAOTemplate= new YrtzDAOTemplate();
         } else {
             abstractDAOTemplate = (AbstractDAOTemplate) IbatorObjectFactory.createInternalObject(type);
         }
 
-        AbstractJavaGenerator javaGenerator = new DAOGenerator(abstractDAOTemplate, isJava5Targeted());
+        AbstractJavaGenerator javaGenerator = new YrtzDAOGenerator(abstractDAOTemplate, isJava5Targeted());
         initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
         daoGenerators.add(javaGenerator);
     }

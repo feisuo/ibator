@@ -27,7 +27,7 @@
     </sqlMapGenerator>
 
     <!-- type: IBATIS SPRING GENERIC-CI GENERIC-SI -->
-    <daoGenerator type="SPRING" targetPackage="com.wy.vas.dao"  targetProject="IbatorTestProject\src">
+    <daoGenerator type="YRTZ" targetPackage="com.wy.vas.dao"  targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
     </daoGenerator>
 
