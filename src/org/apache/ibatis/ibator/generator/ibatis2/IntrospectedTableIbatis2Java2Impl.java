@@ -38,7 +38,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.model.BaseRecordGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.ExampleGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.PrimaryKeyGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.RecordWithBLOBsGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.SqlMapGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.SqlMapGenerator;
 import org.apache.ibatis.ibator.internal.IbatorObjectFactory;
 
 /**
@@ -65,7 +65,8 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
     }
     
     protected void calculateSqlMapGenerator(List<String> warnings, ProgressCallback progressCallback) {
-        sqlMapGenerator = new SqlMapGenerator();
+        //使用yrtz 
+    	sqlMapGenerator = new SqlMapGenerator();
         initializeAbstractGenerator(sqlMapGenerator, warnings, progressCallback);
     }
     

@@ -20,6 +20,7 @@
     <javaModelGenerator targetPackage="com.wy.vas.domain" targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
+      <property name="rootClass" value="PageCondition" />
     </javaModelGenerator>
 
     <sqlMapGenerator targetPackage="com.wy.vas.xml"  targetProject="IbatorTestProject\src">
