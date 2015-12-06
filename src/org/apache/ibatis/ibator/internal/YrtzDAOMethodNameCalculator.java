@@ -17,14 +17,15 @@
 package org.apache.ibatis.ibator.internal;
 
 import org.apache.ibatis.ibator.api.DAOMethodNameCalculator;
+import org.apache.ibatis.ibator.api.DAOMethodNameCalculatorYrtz;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.internal.rules.IbatorRules;
 
 /**
- * @author Jeff Butler
+ * @author feisuo
  *
  */
-public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
+public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz {
 
     /**
      * 
@@ -77,8 +78,8 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
         }
     }
     
-    public String getDeleteByExampleMethodName(IntrospectedTable introspectedTable) {
-        return "deleteByExample"; //$NON-NLS-1$
+    public String getDeleteByConditionMethodName(IntrospectedTable introspectedTable) {
+        return "deleteByCondition"; //$NON-NLS-1$
     }
 
     public String getDeleteByPrimaryKeyMethodName(IntrospectedTable introspectedTable) {
@@ -90,13 +91,13 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
      *    result should be selectByExample.
      * 2. Else the method name should be selectByExampleWithoutBLOBs
      */
-    public String getSelectByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getSelectByConditionWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateSelectByExampleWithBLOBs()) {
-            return "selectByExample"; //$NON-NLS-1$
+            return "selectByCondition"; //$NON-NLS-1$
         } else {
-            return "selectByExampleWithoutBLOBs"; //$NON-NLS-1$
+            return "selectByConditionWithoutBLOBs"; //$NON-NLS-1$
         }
     }
 
@@ -105,13 +106,13 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
      *    result should be selectByExample.
      * 2. Else the method name should be selectByExampleWithBLOBs
      */
-    public String getSelectByExampleWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getSelectByConditionWithBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateSelectByExampleWithoutBLOBs()) {
-            return "selectByExample"; //$NON-NLS-1$
+            return "selectByCondition"; //$NON-NLS-1$
         } else {
-            return "selectByExampleWithBLOBs"; //$NON-NLS-1$
+            return "selectByConditionWithBLOBs"; //$NON-NLS-1$
         }
     }
 
@@ -123,38 +124,39 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
         return "updateByPrimaryKeySelective"; //$NON-NLS-1$
     }
 
-    public String getCountByExampleMethodName(IntrospectedTable introspectedTable) {
-        return "countByExample"; //$NON-NLS-1$
+    public String getCountByConditionMethodName(IntrospectedTable introspectedTable) {
+        return "countByCondition"; //$NON-NLS-1$
     }
 
-    public String getUpdateByExampleSelectiveMethodName(IntrospectedTable introspectedTable) {
+    public String getUpdateByConditionSelectiveMethodName(IntrospectedTable introspectedTable) {
         return "updateByExampleSelective"; //$NON-NLS-1$
     }
 
-    public String getUpdateByExampleWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getUpdateByConditionWithBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateUpdateByExampleWithoutBLOBs()) {
-            return "updateByExample"; //$NON-NLS-1$
+            return "updateByCondition"; //$NON-NLS-1$
         } else if (rules.generateRecordWithBLOBsClass()) {
-            return "updateByExample"; //$NON-NLS-1$
+            return "updateByCondition"; //$NON-NLS-1$
         } else {
-            return "updateByExampleWithBLOBs"; //$NON-NLS-1$
+            return "updateByConditionWithBLOBs"; //$NON-NLS-1$
         }
     }
 
-    public String getUpdateByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getUpdateByConditionWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateUpdateByExampleWithBLOBs()) {
-            return "updateByExample"; //$NON-NLS-1$
+            return "updateByCondition"; //$NON-NLS-1$
         } else if (rules.generateRecordWithBLOBsClass()) {
-            return "updateByExample"; //$NON-NLS-1$
+            return "updateByCondition"; //$NON-NLS-1$
         } else {
-            return "updateByExampleWithoutBLOBs"; //$NON-NLS-1$
+            return "updateByConditionWithoutBLOBs"; //$NON-NLS-1$
         }
     }
 
+    
     public String getInsertSelectiveMethodName(IntrospectedTable introspectedTable) {
         return "insertSelective"; //$NON-NLS-1$
     }

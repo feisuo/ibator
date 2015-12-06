@@ -4,11 +4,10 @@
   "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
 
 <ibatorConfiguration>
-  <classPathEntry location="E:\BaiduYunDownload\mysql-connector-java-5.1.20-bin.jar" />
-
-  <ibatorContext id="MySql2Tables" targetRuntime="Ibatis2Java2">
+  <classPathEntry location="F:\mysql-connector-java-5.0.8-bin.jar" />
+  <ibatorContext id="MySql2Tables" targetRuntime="Ibatis2Java2" defaultModelType="flat">
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://localhost:3306/orcl"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/dev_demo"
         userId="root"
         password="feisuo">
     </jdbcConnection>
@@ -17,21 +16,22 @@
       <property name="forceBigDecimals" value="false" />
     </javaTypeResolver>
 
-    <javaModelGenerator targetPackage="test.model" targetProject="IbatorTestProject\src">
+    <javaModelGenerator targetPackage="com.wy.domain" targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
+      <property name="rootClass" value="com.wy.domain.persistence.BaseInfo"/>
     </javaModelGenerator>
 
-    <sqlMapGenerator targetPackage="test.xml"  targetProject="IbatorTestProject\src">
+    <sqlMapGenerator targetPackage="com.wy.xml"  targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
 
-    <daoGenerator type="SPRING" targetPackage="test.dao"  targetProject="IbatorTestProject\src">
+    <daoGenerator type="SPRING" targetPackage="com.wy.dao"  targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
     </daoGenerator>
 
-    <table schema="orcl" tableName="coupon_product" domainObjectName="Customer" >
+    <table schema="dev2_p2p" tableName="coupon_product"  domainObjectName="coupon_product" >
     </table>
-    <table schema="orcl"  tableName="coupon_detail" ></table>
+    <table schema="dev2_p2p"  tableName="coupon_detail" ></table>
   </ibatorContext>
 </ibatorConfiguration>

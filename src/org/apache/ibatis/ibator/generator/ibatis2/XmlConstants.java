@@ -129,6 +129,7 @@ public class XmlConstants {
     
     public static final String IBATOR_CONFIG_PUBLIC_ID = "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"; //$NON-NLS-1$
     
+    //统计表中数量
     public static final String COUNT_BY_EXAMPLE_STATEMENT_ID;
     
     public static final String DELETE_BY_EXAMPLE_STATEMENT_ID;

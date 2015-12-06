@@ -156,7 +156,7 @@ public class DatabaseIntrospector {
         calculateExtraColumnInformation(tc, columns);
         applyColumnOverrides(tc, columns);
         calculateIdentityColumns(tc, columns);
-        
+        //获取到表数据
         List<IntrospectedTable> introspectedTables = calculateIntrospectedTables(tc, columns);
         
         // now introspectedTables has all the columns from all the 
@@ -327,6 +327,7 @@ public class DatabaseIntrospector {
      * @return introspected columns
      * @throws SQLException
      */
+    
     private Map<ActualTableName, List<IntrospectedColumn>> getColumns(TableConfiguration tc) throws SQLException {
         String localCatalog;
         String localSchema;
