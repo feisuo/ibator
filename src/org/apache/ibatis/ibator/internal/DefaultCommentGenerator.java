@@ -211,6 +211,27 @@ public class DefaultCommentGenerator implements CommentGenerator {
         xmlElement.addElement(new TextElement("-->")); //$NON-NLS-1$
     }
 
+    /**
+     *  add a comment that you want it to be
+     * @author feisuo
+     */
+    public void addComment(XmlElement xmlElement,String comment) {
+        xmlElement.addElement(new TextElement("<!--")); //$NON-NLS-1$
+        xmlElement.addElement(new TextElement(comment)); //$NON-NLS-1$
+
+        String s = getDateString();
+        if (s != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("  This element was generated on "); //$NON-NLS-1$
+            sb.append(s);
+            sb.append('.');
+            xmlElement.addElement(new TextElement(sb.toString()));
+        }
+
+        xmlElement.addElement(new TextElement("-->")); //$NON-NLS-1$
+    }
+
+
     public void addRootComment(XmlElement rootElement) {
         // add no document level comments by default
         ;

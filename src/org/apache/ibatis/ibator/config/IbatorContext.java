@@ -434,8 +434,7 @@ public class IbatorContext extends PropertyHolder {
                 }
 
                 if (!tc.areAnyStatementsEnabled()) {
-                    warnings
-                    .add(Messages.getString("Warning.0", tableName)); //$NON-NLS-1$
+                    warnings.add(Messages.getString("Warning.0", tableName)); //$NON-NLS-1$
                     continue;
                 }
 

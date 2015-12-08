@@ -92,6 +92,13 @@ public interface CommentGenerator {
     public void addComment(XmlElement xmlElement);
     
     /**
+     * add comment that you want it to be
+     * @author feisuo
+     * 
+     */
+    public void addComment(XmlElement xmlElement,String comment);
+    
+    /**
      * This method is called to add a comment as the first child of
      * the root element.  This method could be used to add a general file
      * comment (such as a copyright notice).  However, note that the XML
