@@ -90,8 +90,8 @@ public class IbatorRunner {
         }
         
         try {
-            IbatorConfigurationParser cp = new IbatorConfigurationParser(
-                warnings);
+            IbatorConfigurationParser cp = new IbatorConfigurationParser(warnings);
+            
             IbatorConfiguration config = cp.parseIbatorConfiguration(configurationFile);
             
             DefaultShellCallback callback = new DefaultShellCallback(arguments.containsKey(OVERWRITE));

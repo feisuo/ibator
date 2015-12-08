@@ -62,8 +62,7 @@ public class YrtzDAOTemplate extends AbstractDAOTemplate {
 
     @Override
     protected void configureSuperClass() {
-        setSuperClass(new FullyQualifiedJavaType(
-            "com.wy.dao.impl.BaseDaoImpl")); //$NON-NLS-1$
+        //setSuperClass(); //$NON-NLS-1$
     }
 
     @Override

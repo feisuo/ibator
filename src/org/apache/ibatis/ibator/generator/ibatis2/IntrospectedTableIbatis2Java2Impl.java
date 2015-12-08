@@ -35,6 +35,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.IbatisDAOTemplat
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.SpringDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.templates.YrtzDAOTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.model.BaseRecordGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.model.ConditionGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.ExampleGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.PrimaryKeyGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.RecordWithBLOBsGenerator;
@@ -98,6 +99,12 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
     }
     
     protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
+        if (getRules().generateConditionClass()) {
+            AbstractJavaGenerator javaGenerator = new ConditionGenerator(isJava5Targeted());
+            initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
+            javaModelGenerators.add(javaGenerator);
+        }
+        
         if (getRules().generateExampleClass()) {
             AbstractJavaGenerator javaGenerator = new ExampleGenerator(isJava5Targeted());
             initializeAbstractGenerator(javaGenerator, warnings, progressCallback);

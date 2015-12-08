@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="coupon_product" >
+  <resultMap id="yrtz_BaseResultMap" class="com.wy.vas.domain.couponProduct" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    <result column="PRODUCT_TYPE" property="productType" jdbcType="INTEGER" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="WORTH" property="worth" jdbcType="DOUBLE" />
+    <result column="VALID_DAY" property="validDay" jdbcType="INTEGER" />
+    <result column="PRODUCR_NUMBER" property="producrNumber" jdbcType="INTEGER" />
+    <result column="productType_RANGE" property="producttypeRange" jdbcType="VARCHAR" />
+    <result column="AMOUNT_MIN" property="amountMin" jdbcType="DOUBLE" />
+    <result column="AMOUNT_MAX" property="amountMax" jdbcType="DOUBLE" />
+    <result column="IS_OPEN" property="isOpen" jdbcType="INTEGER" />
+    <result column="IS_CREATE" property="isCreate" jdbcType="INTEGER" />
+    <result column="MODIFY_USERCODE" property="modifyUsercode" jdbcType="VARCHAR" />
+    <result column="MODIFY_USERNAME" property="modifyUsername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="yrtz_Example_Where_Clause" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    <iterate property="oredCriteria" conjunction="or" prepend="where" removeFirstPrepend="iterate" >
+      <isEqual property="oredCriteria[].valid" compareValue="true" >
+        (
+        <iterate prepend="and" property="oredCriteria[].criteriaWithoutValue" conjunction="and" >
+          $oredCriteria[].criteriaWithoutValue[]$
+        </iterate>
+        <iterate prepend="and" property="oredCriteria[].criteriaWithSingleValue" conjunction="and" >
+          $oredCriteria[].criteriaWithSingleValue[].condition$
+            #oredCriteria[].criteriaWithSingleValue[].value#
+        </iterate>
+        <iterate prepend="and" property="oredCriteria[].criteriaWithListValue" conjunction="and" >
+          $oredCriteria[].criteriaWithListValue[].condition$
+          <iterate property="oredCriteria[].criteriaWithListValue[].values" open="(" close=")" conjunction="," >
+            #oredCriteria[].criteriaWithListValue[].values[]#
+          </iterate>
+        </iterate>
+        <iterate prepend="and" property="oredCriteria[].criteriaWithBetweenValue" conjunction="and" >
+          $oredCriteria[].criteriaWithBetweenValue[].condition$
+          #oredCriteria[].criteriaWithBetweenValue[].values[0]# and
+          #oredCriteria[].criteriaWithBetweenValue[].values[1]#
+        </iterate>
+        )
+      </isEqual>
+    </iterate>
+  </sql>
+  <delete id="yrtz_deleteByExample" parameterClass="com.wy.vas.domain.couponProductExample" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    delete from coupon_product
+    <include refid="coupon_product.yrtz_Example_Where_Clause" />
+  </delete>
+  <insert id="yrtz_insert" parameterClass="com.wy.vas.domain.couponProduct" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    insert into coupon_product (PRODUCT_TYPE, PRODUCT_NAME, WORTH, VALID_DAY, PRODUCR_NUMBER,
+      productType_RANGE, AMOUNT_MIN, AMOUNT_MAX, IS_OPEN, IS_CREATE, MODIFY_USERCODE,
+      MODIFY_USERNAME)
+    values (#productType:INTEGER#, #productName:VARCHAR#, #worth:DOUBLE#, #validDay:INTEGER#,
+      #producrNumber:INTEGER#, #producttypeRange:VARCHAR#, #amountMin:DOUBLE#, #amountMax:DOUBLE#,
+      #isOpen:INTEGER#, #isCreate:INTEGER#, #modifyUsercode:VARCHAR#, #modifyUsername:VARCHAR#)
+  </insert>
+  <insert id="yrtz_insertSelective" parameterClass="com.wy.vas.domain.couponProduct" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    insert into coupon_product
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="productType" >
+        PRODUCT_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="productName" >
+        PRODUCT_NAME
+      </isNotNull>
+      <isNotNull prepend="," property="worth" >
+        WORTH
+      </isNotNull>
+      <isNotNull prepend="," property="validDay" >
+        VALID_DAY
+      </isNotNull>
+      <isNotNull prepend="," property="producrNumber" >
+        PRODUCR_NUMBER
+      </isNotNull>
+      <isNotNull prepend="," property="producttypeRange" >
+        productType_RANGE
+      </isNotNull>
+      <isNotNull prepend="," property="amountMin" >
+        AMOUNT_MIN
+      </isNotNull>
+      <isNotNull prepend="," property="amountMax" >
+        AMOUNT_MAX
+      </isNotNull>
+      <isNotNull prepend="," property="isOpen" >
+        IS_OPEN
+      </isNotNull>
+      <isNotNull prepend="," property="isCreate" >
+        IS_CREATE
+      </isNotNull>
+      <isNotNull prepend="," property="modifyUsercode" >
+        MODIFY_USERCODE
+      </isNotNull>
+      <isNotNull prepend="," property="modifyUsername" >
+        MODIFY_USERNAME
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="productType" >
+        #productType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="productName" >
+        #productName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="worth" >
+        #worth:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="validDay" >
+        #validDay:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="producrNumber" >
+        #producrNumber:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="producttypeRange" >
+        #producttypeRange:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="amountMin" >
+        #amountMin:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="amountMax" >
+        #amountMax:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="isOpen" >
+        #isOpen:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="isCreate" >
+        #isCreate:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="modifyUsercode" >
+        #modifyUsercode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="modifyUsername" >
+        #modifyUsername:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <select id="yrtz_countByExample" parameterClass="com.wy.vas.domain.couponProductExample" resultClass="java.lang.Integer" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    select count(*) from coupon_product
+    <include refid="coupon_product.yrtz_Example_Where_Clause" />
+  </select>
+  <update id="yrtz_updateByExampleSelective" >
+    <!--
+      WARNING - 该元素由yrtz自动生成, do not modify.
+    -->
+    update coupon_product
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="record.productType" >
+        PRODUCT_TYPE = #record.productType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.productName" >
+        PRODUCT_NAME = #record.productName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.worth" >
+        WORTH = #record.worth:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="record.validDay" >
+        VALID_DAY = #record.validDay:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.producrNumber" >
+        PRODUCR_NUMBER = #record.producrNumber:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.producttypeRange" >
+        productType_RANGE = #record.producttypeRange:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.amountMin" >
+        AMOUNT_MIN = #record.amountMin:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="record.amountMax" >
+        AMOUNT_MAX = #record.amountMax:DOUBLE#
+      </isNotNull>
+      <isNotNull prepend="," property="record.isOpen" >
+        IS_OPEN = #record.isOpen:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.isCreate" >
+        IS_CREATE = #record.isCreate:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="record.modifyUsercode" >
+        MODIFY_USERCODE = #record.modifyUsercode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="record.modifyUsername" >
+        MODIFY_USERNAME = #record.modifyUsername:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    <isParameterPresent >
+      <include refid="coupon_product.yrtz_Example_Where_Clause" />
+    </isParameterPresent>
+  </update>
+</sqlMap>

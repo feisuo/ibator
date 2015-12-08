@@ -97,6 +97,12 @@ public abstract class IntrospectedTable {
      *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
      */
     public static final String ATTR_EXAMPLE_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_EXAMPLE_TYPE"; //$NON-NLS-1$
+   
+    /**
+     * This attribute must be a class of type
+     *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
+     */
+    public static final String ATTR_CONDITION_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_CONDITION_TYPE"; //$NON-NLS-1$
     
     /**
      * This attribute must be a class of type java.lang.String
@@ -356,6 +362,15 @@ public abstract class IntrospectedTable {
     public FullyQualifiedJavaType getExampleType() {
         return (FullyQualifiedJavaType) getAttribute(ATTR_EXAMPLE_TYPE);
     }
+    
+    /**
+     * added by feisuo yrtz
+     * @return the type for the example class.
+     */
+    public FullyQualifiedJavaType getConditionType() {
+        return (FullyQualifiedJavaType) getAttribute(ATTR_CONDITION_TYPE);
+    }
+
 
     /**
      * 
@@ -487,6 +502,9 @@ public abstract class IntrospectedTable {
         calculateRecordWithBLOBsType();
         calculateExampleType();
         
+        //added by feisuo
+        calculateConditionType();
+        
         calculateSqlMapPackage();
         calculateSqlMapFileName();
         
@@ -614,6 +632,19 @@ public abstract class IntrospectedTable {
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
 
         setAttribute(ATTR_EXAMPLE_TYPE, fqjt);
+    }
+    
+    //yrtz condition added by feisuo
+    private void calculateConditionType() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getJavaModelPackage());
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("Condition"); //$NON-NLS-1$
+
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
+
+        setAttribute(ATTR_CONDITION_TYPE, fqjt);
     }
     
     private void calculateSqlMapPackage() {

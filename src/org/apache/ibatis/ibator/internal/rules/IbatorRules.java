@@ -266,6 +266,11 @@ public abstract class IbatorRules {
     
         return rc;
     }
+    //yrtz Condition
+    public boolean generateConditionClass(){
+    	boolean rc =true;
+        return rc;
+    }
     
     public boolean generateCountByExample() {
         boolean rc = tableConfiguration.isCountByExampleStatementEnabled();
