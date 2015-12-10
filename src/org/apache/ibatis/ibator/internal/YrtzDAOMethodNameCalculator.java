@@ -16,15 +16,15 @@
 
 package org.apache.ibatis.ibator.internal;
 
-import org.apache.ibatis.ibator.api.DAOMethodNameCalculatorYrtz;
+import org.apache.ibatis.ibator.api.DAOMethodNameCalculator;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.internal.rules.IbatorRules;
 
 /**
- * @author feisuo
+ * @author Jeff Butler
  *
  */
-public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz {
+public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
 
     /**
      * 
@@ -77,7 +77,7 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz 
         }
     }
     
-    public String getDeleteByConditionMethodName(IntrospectedTable introspectedTable) {
+    public String getDeleteByExampleMethodName(IntrospectedTable introspectedTable) {
         return "deleteByCondition"; //$NON-NLS-1$
     }
 
@@ -90,7 +90,7 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz 
      *    result should be selectByExample.
      * 2. Else the method name should be selectByExampleWithoutBLOBs
      */
-    public String getSelectByConditionWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getSelectByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateSelectByExampleWithBLOBs()) {
@@ -105,7 +105,7 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz 
      *    result should be selectByExample.
      * 2. Else the method name should be selectByExampleWithBLOBs
      */
-    public String getSelectByConditionWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getSelectByExampleWithBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateSelectByExampleWithoutBLOBs()) {
@@ -123,15 +123,15 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz 
         return "updateByPrimaryKeySelective"; //$NON-NLS-1$
     }
 
-    public String getCountByConditionMethodName(IntrospectedTable introspectedTable) {
+    public String getCountByExampleMethodName(IntrospectedTable introspectedTable) {
         return "countByCondition"; //$NON-NLS-1$
     }
 
-    public String getUpdateByConditionSelectiveMethodName(IntrospectedTable introspectedTable) {
-        return "updateByExampleSelective"; //$NON-NLS-1$
+    public String getUpdateByExampleSelectiveMethodName(IntrospectedTable introspectedTable) {
+        return "updateByConditionSelective"; //$NON-NLS-1$
     }
 
-    public String getUpdateByConditionWithBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getUpdateByExampleWithBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateUpdateByExampleWithoutBLOBs()) {
@@ -143,7 +143,7 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz 
         }
     }
 
-    public String getUpdateByConditionWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
+    public String getUpdateByExampleWithoutBLOBsMethodName(IntrospectedTable introspectedTable) {
         IbatorRules rules = introspectedTable.getRules();
         
         if (!rules.generateUpdateByExampleWithBLOBs()) {
@@ -155,7 +155,6 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculatorYrtz 
         }
     }
 
-    
     public String getInsertSelectiveMethodName(IntrospectedTable introspectedTable) {
         return "insertSelective"; //$NON-NLS-1$
     }

@@ -41,8 +41,7 @@ public abstract class BaseModelClassGenerator extends AbstractJavaGenerator {
 
     public boolean isTrimStringsEnabled () {
         Properties properties = ibatorContext.getJavaModelGeneratorConfiguration().getProperties();
-        boolean rc = StringUtility.isTrue(properties
-                .getProperty(PropertyRegistry.MODEL_GENERATOR_TRIM_STRINGS));
+        boolean rc = StringUtility.isTrue(properties.getProperty(PropertyRegistry.MODEL_GENERATOR_TRIM_STRINGS));
         return rc;
     }
 

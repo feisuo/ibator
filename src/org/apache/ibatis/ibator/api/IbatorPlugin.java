@@ -1074,4 +1074,35 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    
+    //---------------------------------------
+    /**
+     * This method is called when the entire Service interface has been generated.
+     * Implement this method to add additional methods or fields to a generated
+     * Service interface.
+     * 
+     * @param interfaze the generated interface
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the interface should be generated, false
+     *   if the generated interface should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean serviceInterfaceGenerated(Interface interfaze, IntrospectedTable introspectedTable);
+    
+    /**
+     * This method is called when the entire Service implementation has been generated.
+     * Implement this method to add additional methods or fields to a generated
+     * Service implementation.
+     * 
+     * @param topLevelClass the generated implementation class
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the implementation class should be generated, false
+     *   if the generated implementation class should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean serviceImplementationGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
 }

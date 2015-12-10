@@ -945,7 +945,24 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
         return rc;
     }
 
-    public void initialized(IntrospectedTable introspectedTable) {
+    
+    //---------------service----------------------
+    
+    @Override
+	public boolean serviceInterfaceGenerated(Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public void initialized(IntrospectedTable introspectedTable) {
         for (IbatorPlugin plugin : plugins) {
             plugin.initialized(introspectedTable);
         }

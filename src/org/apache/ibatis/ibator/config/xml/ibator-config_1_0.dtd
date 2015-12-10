@@ -51,7 +51,7 @@
   tables.
 -->
 <!ELEMENT ibatorContext (property*, ibatorPlugin*, commentGenerator?, jdbcConnection, javaTypeResolver?,
-                         javaModelGenerator, sqlMapGenerator, daoGenerator?, table+)>
+                         javaModelGenerator, sqlMapGenerator, daoGenerator?,serviceGenerator?, table+)>
 <!ATTLIST ibatorContext id ID #REQUIRED
   defaultModelType CDATA #IMPLIED
   targetRuntime CDATA #IMPLIED
@@ -135,6 +135,18 @@
   targetPackage CDATA #REQUIRED
   targetProject CDATA #REQUIRED
   implementationPackage CDATA #IMPLIED>
+  
+ <!--
+  The serviceGenerator element is used to define properties of the Service Generator.
+  The Service Generator builds Service an interface and implementation class for each table.
+  If this element is missing, then ibator will not build Service classes.
+-->
+<!ELEMENT serviceGenerator (property*)>
+<!ATTLIST serviceGenerator
+  type CDATA #REQUIRED
+  targetPackage CDATA #REQUIRED
+  targetProject CDATA #REQUIRED
+  implementationPackage CDATA #IMPLIED> 
 
 <!--
   The table element is used to specify a database table that will be the source information

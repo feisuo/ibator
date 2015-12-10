@@ -34,7 +34,7 @@ public class XmlConstantsYrtz {
 
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
         sb.append("countByCondition"); //$NON-NLS-1$
-        COUNT_BY_EXAMPLE_STATEMENT_ID = sb.toString();
+        COUNT_BY_CONDITION_STATEMENT_ID = sb.toString();
 
         sb.setLength(0);
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
@@ -129,7 +129,7 @@ public class XmlConstantsYrtz {
     
     public static final String IBATOR_CONFIG_PUBLIC_ID = "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN"; //$NON-NLS-1$
     
-    public static final String COUNT_BY_EXAMPLE_STATEMENT_ID;
+    public static final String COUNT_BY_CONDITION_STATEMENT_ID;
     
     public static final String DELETE_BY_EXAMPLE_STATEMENT_ID;
     

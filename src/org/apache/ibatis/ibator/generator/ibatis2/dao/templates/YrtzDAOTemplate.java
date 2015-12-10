@@ -69,4 +69,9 @@ public class YrtzDAOTemplate extends AbstractDAOTemplate {
     protected void configureUpdateMethodTemplate() {
         setUpdateMethodTemplate("getSqlMapClient().update(\"{0}.{1}\", {2});"); //$NON-NLS-1$
     }
+    
+    @Override
+    protected void configureCheckedExceptions() {
+        addCheckedException(new FullyQualifiedJavaType("java.sql.SQLException")); //$NON-NLS-1$
+    }
 }

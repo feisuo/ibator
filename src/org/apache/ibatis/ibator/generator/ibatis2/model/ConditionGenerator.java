@@ -18,9 +18,11 @@ package org.apache.ibatis.ibator.generator.ibatis2.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.ibatis.ibator.api.CommentGenerator;
 import org.apache.ibatis.ibator.api.FullyQualifiedTable;
+import org.apache.ibatis.ibator.api.IbatorPlugin;
 import org.apache.ibatis.ibator.api.IntrospectedColumn;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.api.dom.OutputUtilities;
@@ -33,6 +35,7 @@ import org.apache.ibatis.ibator.api.dom.java.JavaWildcardType;
 import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
+import org.apache.ibatis.ibator.config.PropertyRegistry;
 import org.apache.ibatis.ibator.internal.rules.IbatorRules;
 import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 import org.apache.ibatis.ibator.internal.util.StringUtility;
@@ -58,150 +61,103 @@ public class ConditionGenerator extends BaseModelClassGenerator {
         progressCallback.startTask(
                 Messages.getString("Progress.6", table.toString())); //$NON-NLS-1$
         CommentGenerator commentGenerator = ibatorContext.getCommentGenerator();
-
+        IbatorPlugin plugins = ibatorContext.getPlugins();
+        
+        
         FullyQualifiedJavaType type = introspectedTable.getConditionType();
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
 
-        // add default constructor
-        Method method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setConstructor(true);
-        method.setName(type.getShortName());
-        if (generateForJava5) {
-            method.addBodyLine("oredCriteria = new ArrayList<Criteria>();"); //$NON-NLS-1$
+        FullyQualifiedJavaType superClass = getSuperClass();
+        if (superClass != null) {
+            topLevelClass.setSuperClass(superClass);
+            topLevelClass.addImportedType(superClass);
+        }
+
+        List<IntrospectedColumn> introspectedColumns;
+        if (includePrimaryKeyColumns()) {
+            if (includeBLOBColumns()) {
+                introspectedColumns = introspectedTable.getAllColumns();
+            } else {
+                introspectedColumns = introspectedTable.getNonBLOBColumns();
+            }
         } else {
-            method.addBodyLine("oredCriteria = new ArrayList();"); //$NON-NLS-1$
-            if (ibatorContext.getSuppressTypeWarnings(introspectedTable)) {
-                method.addSuppressTypeWarningsAnnotation();
+            if (includeBLOBColumns()) {
+                introspectedColumns = introspectedTable.getNonPrimaryKeyColumns();
+            } else {
+                introspectedColumns = introspectedTable.getBaseColumns();
             }
         }
-        
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
 
-        // add shallow copy constructor if the update by
-        // example methods are enabled - because the parameter
-        // class for update by example methods will subclass this class
-        IbatorRules rules = introspectedTable.getRules();
-        if (rules.generateUpdateByExampleSelective()
-                || rules.generateUpdateByExampleWithBLOBs()
-                || rules.generateUpdateByExampleWithoutBLOBs()) {
-            method = new Method();
-            method.setVisibility(JavaVisibility.PROTECTED);
-            method.setConstructor(true);
-            method.setName(type.getShortName());
-            method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
-            method.addBodyLine("this.orderByClause = example.orderByClause;"); //$NON-NLS-1$
-            method.addBodyLine("this.oredCriteria = example.oredCriteria;"); //$NON-NLS-1$
-            commentGenerator.addGeneralMethodComment(method, table);
-            topLevelClass.addMethod(method);
+        String rootClass = getRootClass();
+        for (IntrospectedColumn introspectedColumn : introspectedColumns) {
+            if (RootClassInfo.getInstance(rootClass, warnings).containsProperty(introspectedColumn)) {
+                continue;
+            }
+
+            Field field = getJavaBeansField(introspectedColumn);
+            if (plugins.modelFieldGenerated(field, topLevelClass, introspectedColumn,
+                    introspectedTable, IbatorPlugin.ModelClassType.BASE_RECORD)) {
+                topLevelClass.addField(field);
+                topLevelClass.addImportedType(field.getType());
+            }
+
+            Method method = getJavaBeansGetter(introspectedColumn);
+            if (plugins.modelGetterMethodGenerated(method, topLevelClass,
+                    introspectedColumn, introspectedTable, IbatorPlugin.ModelClassType.BASE_RECORD)) {
+                topLevelClass.addMethod(method);
+            }
+
+            method = getJavaBeansSetter(introspectedColumn);
+            if (plugins.modelSetterMethodGenerated(method, topLevelClass,
+                    introspectedColumn, introspectedTable, IbatorPlugin.ModelClassType.BASE_RECORD)) {
+                topLevelClass.addMethod(method);
+            }
         }
-
-        // add field, getter, setter for orderby clause
-        Field field = new Field();
-        field.setVisibility(JavaVisibility.PROTECTED);
-        field.setType(FullyQualifiedJavaType.getStringInstance());
-        field.setName("orderByClause"); //$NON-NLS-1$
-        commentGenerator.addFieldComment(field, table);
-        topLevelClass.addField(field);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setName("setOrderByClause"); //$NON-NLS-1$
-        method.addParameter(new Parameter(FullyQualifiedJavaType
-                .getStringInstance(), "orderByClause")); //$NON-NLS-1$
-        method.addBodyLine("this.orderByClause = orderByClause;"); //$NON-NLS-1$
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setReturnType(FullyQualifiedJavaType.getStringInstance());
-        method.setName("getOrderByClause"); //$NON-NLS-1$
-        method.addBodyLine("return orderByClause;"); //$NON-NLS-1$
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
-
-        // add field and methods for the list of ored criteria
-        field = new Field();
-        field.setVisibility(JavaVisibility.PROTECTED);
-
-        FullyQualifiedJavaType fqjt = FullyQualifiedJavaType
-                .getNewListInstance();
-        if (generateForJava5) {
-            fqjt.addTypeArgument(new FullyQualifiedJavaType("Criteria")); //$NON-NLS-1$
-        }
-
-        field.setType(fqjt);
-        if (ibatorContext.getSuppressTypeWarnings(introspectedTable)) {
-            field.addSuppressTypeWarningsAnnotation();
-        }
-        field.setName("oredCriteria"); //$NON-NLS-1$
-        commentGenerator.addFieldComment(field, table);
-        topLevelClass.addField(field);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setReturnType(fqjt);
-        if (ibatorContext.getSuppressTypeWarnings(introspectedTable)) {
-            method.addSuppressTypeWarningsAnnotation();
-        }
-        method.setName("getOredCriteria"); //$NON-NLS-1$
-        method.addBodyLine("return oredCriteria;"); //$NON-NLS-1$
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        if (ibatorContext.getSuppressTypeWarnings(introspectedTable)) {
-            method.addSuppressTypeWarningsAnnotation();
-        }
-        method.setName("or"); //$NON-NLS-1$
-        method.addParameter(new Parameter(FullyQualifiedJavaType
-                .getCriteriaInstance(), "criteria")); //$NON-NLS-1$
-        method.addBodyLine("oredCriteria.add(criteria);"); //$NON-NLS-1$
-
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        if (ibatorContext.getSuppressTypeWarnings(introspectedTable)) {
-            method.addSuppressTypeWarningsAnnotation();
-        }
-        method.setName("createCriteria"); //$NON-NLS-1$
-        method.setReturnType(FullyQualifiedJavaType.getCriteriaInstance());
-        method.addBodyLine("Criteria criteria = createCriteriaInternal();"); //$NON-NLS-1$
-        method.addBodyLine("if (oredCriteria.size() == 0) {"); //$NON-NLS-1$
-        method.addBodyLine("oredCriteria.add(criteria);"); //$NON-NLS-1$
-        method.addBodyLine("}"); //$NON-NLS-1$
-        method.addBodyLine("return criteria;"); //$NON-NLS-1$
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PROTECTED);
-        method.setName("createCriteriaInternal"); //$NON-NLS-1$
-        method.setReturnType(FullyQualifiedJavaType.getCriteriaInstance());
-        method.addBodyLine("Criteria criteria = new Criteria();"); //$NON-NLS-1$
-        method.addBodyLine("return criteria;"); //$NON-NLS-1$
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
-
-        method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setName("clear"); //$NON-NLS-1$
-        method.addBodyLine("oredCriteria.clear();"); //$NON-NLS-1$
-        commentGenerator.addGeneralMethodComment(method, table);
-        topLevelClass.addMethod(method);
 
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
-        if (ibatorContext.getPlugins().modelExampleClassGenerated(topLevelClass, introspectedTable)) {
+        if (ibatorContext.getPlugins().modelBaseRecordClassGenerated(topLevelClass, introspectedTable)) {
             answer.add(topLevelClass);
         }
         return answer;
+    }
+    
+    
+    private FullyQualifiedJavaType getSuperClass() {
+        FullyQualifiedJavaType superClass;
+        if (introspectedTable.getRules().generatePrimaryKeyClass()) {
+            superClass = introspectedTable.getPrimaryKeyType();
+        } else {
+            String rootClass = getRootClass();
+            if (rootClass != null) {
+                superClass = new FullyQualifiedJavaType(rootClass);
+            } else {
+                superClass = null;
+            }
+        }
+        
+        return superClass;
+    }
+    
+    public String getRootClass () {
+        String rootClass = introspectedTable.getTableConfigurationProperty(PropertyRegistry.YRTZ_ROOT_CLASS);
+        if (rootClass == null) {
+            Properties properties = ibatorContext.getJavaModelGeneratorConfiguration().getProperties();
+            rootClass = properties.getProperty(PropertyRegistry.YRTZ_ROOT_CLASS);
+        }
+        
+        return rootClass;
+    }
+    
+    private boolean includePrimaryKeyColumns() {
+        return !introspectedTable.getRules().generatePrimaryKeyClass()
+            && introspectedTable.hasPrimaryKeyColumns();
+    }
+    
+    private boolean includeBLOBColumns() {
+        return !introspectedTable.getRules().generateRecordWithBLOBsClass()
+            && introspectedTable.hasBLOBColumns();
     }
 
 }

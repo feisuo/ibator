@@ -43,6 +43,7 @@ import org.apache.ibatis.ibator.config.JavaModelGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.JavaTypeResolverConfiguration;
 import org.apache.ibatis.ibator.config.ModelType;
 import org.apache.ibatis.ibator.config.PropertyHolder;
+import org.apache.ibatis.ibator.config.ServiceGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.SqlMapGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.TableConfiguration;
 import org.apache.ibatis.ibator.exception.XMLParserException;
@@ -280,6 +281,8 @@ public class IbatorConfigurationParser {
                 parseSqlMapGenerator(ibatorContext, childNode);
             } else if ("daoGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseDaoGenerator(ibatorContext, childNode);
+            } else if ("serviceGenerator".equals(childNode.getNodeName())) { //$NON-NLS-1$
+                parseServiceGenerator(ibatorContext, childNode);
             } else if ("table".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseTable(ibatorContext, childNode);
             }
@@ -621,6 +624,36 @@ public class IbatorConfigurationParser {
 
             if ("property".equals(childNode.getNodeName())) { //$NON-NLS-1$
                 parseProperty(daoGeneratorConfiguration, childNode);
+            }
+        }
+    }
+    //added by feisuo  
+    private void parseServiceGenerator(IbatorContext ibatorContext, Node node) {
+        ServiceGeneratorConfiguration serviceGeneratorConfiguration = new ServiceGeneratorConfiguration();
+
+        ibatorContext.setServiceGeneratorConfiguration(serviceGeneratorConfiguration);
+
+        Properties attributes = parseAttributes(node);
+        String type = attributes.getProperty("type"); //$NON-NLS-1$
+        String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
+        String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
+        String implementationPackage = attributes.getProperty("implementationPackage"); //$NON-NLS-1$
+
+        serviceGeneratorConfiguration.setConfigurationType(type);
+        serviceGeneratorConfiguration.setTargetPackage(targetPackage);
+        serviceGeneratorConfiguration.setTargetProject(targetProject);
+        serviceGeneratorConfiguration.setImplementationPackage(implementationPackage);
+
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node childNode = nodeList.item(i);
+
+            if (childNode.getNodeType() != 1) {
+                continue;
+            }
+
+            if ("property".equals(childNode.getNodeName())) { //$NON-NLS-1$
+                parseProperty(serviceGeneratorConfiguration, childNode);
             }
         }
     }

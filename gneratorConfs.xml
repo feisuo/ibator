@@ -7,6 +7,10 @@
   <classPathEntry location="E:\BaiduYunDownload\mysql-connector-java-5.1.20-bin.jar" />
 
   <ibatorContext id="MySql2Tables" targetRuntime="Ibatis2Java2" defaultModelType="flat">
+    
+    <commentGenerator type="org.apache.ibatis.ibator.internal.YrtzCommentGenerator">
+	</commentGenerator>
+    
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
         connectionURL="jdbc:mysql://123.57.138.108:3306/dev2_p2p"
         userId="root"
@@ -20,7 +24,8 @@
     <javaModelGenerator targetPackage="com.wy.vas.domain" targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
-       <property name="rootClass" value="com.wy.domain.persistence.BaseInfo"/>
+      <property name="rootClass" value="com.wy.domain.persistence.BaseInfo"/>
+      <property name="rootClassYrtz" value="com.wy.handler.page.PageCondition"/>
     </javaModelGenerator>
 
     <sqlMapGenerator targetPackage="com.wy.vas.xml"  targetProject="IbatorTestProject\src">
@@ -30,11 +35,16 @@
     <!-- type: IBATIS SPRING GENERIC-CI GENERIC-SI -->
     <daoGenerator type="YRTZ" targetPackage="com.wy.vas.dao"  targetProject="IbatorTestProject\src">
       <property name="enableSubPackages" value="true" />
+      <property name="methodNameCalculator" value="org.apache.ibatis.ibator.internal.YrtzDAOMethodNameCalculator"/>
     </daoGenerator>
+    
+    <serviceGenerator type="YRTZ" targetPackage="com.wy.vas.service"  targetProject="IbatorTestProject\src">
+      <property name="enableSubPackages" value="true" />
+    </serviceGenerator>
 
+  
     <table schema="dev2_p2p" tableName="coupon_product" domainObjectName="couponProduct" >
-       <ignoreColumn column="id"/>
-       <ignoreColumn column="code"/>
+      
        <ignoreColumn column="CREATE_TIME"/>
        <ignoreColumn column="MODIFY_TIME"/>
        <ignoreColumn column="CREATE_USERCODE"/>
@@ -42,6 +52,8 @@
        <ignoreColumn column="EFFECTIVE_STRTIME"/>
        <ignoreColumn column="EFFECTIVE_ENDTIME"/>
     </table>
+     <!--   
     <table schema="dev2_p2p"  tableName="coupon_detail" ></table>
+    -->
   </ibatorContext>
 </ibatorConfiguration>

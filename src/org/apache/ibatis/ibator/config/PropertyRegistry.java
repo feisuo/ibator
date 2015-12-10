@@ -32,6 +32,7 @@ public class PropertyRegistry {
      * recognized by table and java model generator
      */
     public static final String ANY_ROOT_CLASS = "rootClass"; //$NON-NLS-1$
+    public static final String YRTZ_ROOT_CLASS = "rootClassYrtz"; //$NON-NLS-1$
 
     /**
      * recognized by table and dao generator
@@ -51,6 +52,9 @@ public class PropertyRegistry {
 
     public static final String DAO_EXAMPLE_METHOD_VISIBILITY = "exampleMethodVisibility"; //$NON-NLS-1$
     public static final String DAO_METHOD_NAME_CALCULATOR = "methodNameCalculator"; //$NON-NLS-1$
+    
+    public static final String SERVICE_EXAMPLE_METHOD_VISIBILITY = "exampleMethodVisibility"; //$NON-NLS-1$
+    public static final String SERVICE_METHOD_NAME_CALCULATOR = "methodNameCalculator"; //$NON-NLS-1$
 
     public static final String TYPE_RESOLVER_FORCE_BIG_DECIMALS = "forceBigDecimals"; //$NON-NLS-1$
 

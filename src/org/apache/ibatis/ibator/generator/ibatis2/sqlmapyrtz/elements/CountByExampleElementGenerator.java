@@ -42,7 +42,7 @@ public class CountByExampleElementGenerator extends AbstractXmlElementGenerator 
 
         answer
                 .addAttribute(new Attribute(
-                        "id", XmlConstantsYrtz.COUNT_BY_EXAMPLE_STATEMENT_ID)); //$NON-NLS-1$
+                        "id", XmlConstantsYrtz.COUNT_BY_CONDITION_STATEMENT_ID)); //$NON-NLS-1$
         answer.addAttribute(new Attribute(
                 "parameterClass", fqjt.getFullyQualifiedName())); //$NON-NLS-1$
         answer.addAttribute(new Attribute(

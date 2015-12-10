@@ -467,15 +467,13 @@ public class TableConfiguration extends PropertyHolder {
         
         if (generatedKey != null
                 && !StringUtility.stringHasValue(generatedKey.getRuntimeSqlStatement())) {
-            errors
-                .add(Messages.getString("ValidationError.7",  //$NON-NLS-1$
+            errors.add(Messages.getString("ValidationError.7",  //$NON-NLS-1$
                         fqTableName));
             
             String type = generatedKey.getType();
             if (StringUtility.stringHasValue(type)) {
                 if (!"pre".equals(type) && !"post".equals(type)) { //$NON-NLS-1$ //$NON-NLS-2$
-                    errors
-                    .add(Messages.getString("ValidationError.15",  //$NON-NLS-1$
+                    errors.add(Messages.getString("ValidationError.15",  //$NON-NLS-1$
                             fqTableName));
                 }
             }
@@ -488,8 +486,7 @@ public class TableConfiguration extends PropertyHolder {
                 boolean queryId2Set = StringUtility.stringHasValue(selectByPrimaryKeyQueryId);
             
                 if (queryId1Set != queryId2Set) {
-                    errors
-                    .add(Messages.getString("ValidationError.13",  //$NON-NLS-1$
+                    errors.add(Messages.getString("ValidationError.13",  //$NON-NLS-1$
                         fqTableName));
                 }
             }

@@ -20,8 +20,8 @@ import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.config.TableConfiguration;
 
 /**
- * This class encapsulates all the code generation rules for 
- * a table using the Yrtz model.
+ * 使用该类产生自定义的方法
+ * 
  * 
  * @author feisuo
  *
@@ -66,7 +66,7 @@ public class YrtzModelRules extends IbatorRules {
         return false;
     }
     
-    public boolean generateConditionClass() {
+    public boolean generateCountClass() {
         return true;
     }
 }

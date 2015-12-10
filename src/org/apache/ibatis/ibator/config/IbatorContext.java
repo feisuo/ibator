@@ -52,6 +52,8 @@ public class IbatorContext extends PropertyHolder {
     private JavaModelGeneratorConfiguration javaModelGeneratorConfiguration;
 
     private DAOGeneratorConfiguration daoGeneratorConfiguration;
+    //added by feisuo  yrtz
+    private ServiceGeneratorConfiguration serviceGeneratorConfiguration;
 
     private ArrayList<TableConfiguration> tableConfigurations;
 
@@ -104,6 +106,10 @@ public class IbatorContext extends PropertyHolder {
 
     public DAOGeneratorConfiguration getDaoGeneratorConfiguration() {
         return daoGeneratorConfiguration;
+    }
+    
+    public ServiceGeneratorConfiguration getServiceGeneratorConfiguration() {
+        return serviceGeneratorConfiguration;
     }
 
     public JavaModelGeneratorConfiguration getJavaModelGeneratorConfiguration() {
@@ -176,6 +182,17 @@ public class IbatorContext extends PropertyHolder {
                         "DAOGenerator", id)); //$NON-NLS-1$
             }
         }
+        
+        if (serviceGeneratorConfiguration != null) {
+            if (!StringUtility.stringHasValue(serviceGeneratorConfiguration.getTargetProject())) {
+                errors.add(Messages.getString("ValidationError.26", id)); //$NON-NLS-1$
+            }
+
+            if (!StringUtility.stringHasValue(serviceGeneratorConfiguration.getTargetPackage())) {
+                errors.add(Messages.getString("ValidationError.12", //$NON-NLS-1$
+                        "ServiceGenerator", id)); //$NON-NLS-1$
+            }
+        }
 
         if (tableConfigurations.size() == 0) {
             errors.add(Messages.getString("ValidationError.3")); //$NON-NLS-1$
@@ -203,6 +220,11 @@ public class IbatorContext extends PropertyHolder {
     public void setDaoGeneratorConfiguration(
             DAOGeneratorConfiguration daoGeneratorConfiguration) {
         this.daoGeneratorConfiguration = daoGeneratorConfiguration;
+    }
+    
+    public void setServiceGeneratorConfiguration(
+            ServiceGeneratorConfiguration serviceGeneratorConfiguration) {
+        this.serviceGeneratorConfiguration = serviceGeneratorConfiguration;
     }
 
     public void setJavaModelGeneratorConfiguration(
@@ -278,6 +300,10 @@ public class IbatorContext extends PropertyHolder {
         
         if (daoGeneratorConfiguration != null) {
             xmlElement.addElement(daoGeneratorConfiguration.toXmlElement());
+        }
+        
+        if (serviceGeneratorConfiguration != null) {
+            xmlElement.addElement(serviceGeneratorConfiguration.toXmlElement());
         }
 
         for (TableConfiguration tableConfiguration : tableConfigurations) {

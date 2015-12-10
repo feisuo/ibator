@@ -29,6 +29,7 @@ import org.apache.ibatis.ibator.config.IbatorContext;
 import org.apache.ibatis.ibator.config.JavaModelGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.ModelType;
 import org.apache.ibatis.ibator.config.PropertyRegistry;
+import org.apache.ibatis.ibator.config.ServiceGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.SqlMapGeneratorConfiguration;
 import org.apache.ibatis.ibator.config.TableConfiguration;
 import org.apache.ibatis.ibator.internal.rules.ConditionalModelRules;
@@ -68,6 +69,29 @@ public abstract class IntrospectedTable {
      *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
      */
     public static final String ATTR_DAO_INTERFACE_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_DAO_INTERFACE_TYPE"; //$NON-NLS-1$
+    //added by feisuo
+    
+    /**
+     * This attribute must be a class of type java.lang.String
+     */
+    public static final String ATTR_SERVICE_IMPLEMENTATION_PACKAGE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SERVICE_IMPLEMENTATION_PACKAGE"; //$NON-NLS-1$
+    
+    /**
+     * This attribute must be a class of type java.lang.String
+     */
+    public static final String ATTR_SERVICE_INTERFACE_PACKAGE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SERVICE_INTERFACE_PACKAGE"; //$NON-NLS-1$
+    
+    /**
+     * This attribute must be a class of type
+     *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
+     */
+    public static final String ATTR_SERVICE_IMPLEMENTATION_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SERVICE_IMPLEMENTATION_TYPE"; //$NON-NLS-1$
+    
+    /**
+     * This attribute must be a class of type
+     *   org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType
+     */
+    public static final String ATTR_SERVICE_INTERFACE_TYPE = "org.apache.ibatis.ibator.api.IntrospectedTable.ATTR_SERVICE_INTERFACE_TYPE"; //$NON-NLS-1$
     
     /**
      * This attribute must be a class of type java.lang.String
@@ -408,6 +432,14 @@ public abstract class IntrospectedTable {
     public FullyQualifiedJavaType getDAOInterfaceType() {
         return (FullyQualifiedJavaType) getAttribute(ATTR_DAO_INTERFACE_TYPE);
     }
+    
+    public FullyQualifiedJavaType getServiceImplementationType() {
+        return (FullyQualifiedJavaType) getAttribute(ATTR_SERVICE_IMPLEMENTATION_TYPE);
+    }
+
+    public FullyQualifiedJavaType getServiceInterfaceType() {
+        return (FullyQualifiedJavaType) getAttribute(ATTR_SERVICE_INTERFACE_TYPE);
+    }
 
     public boolean hasAnyColumns() {
         return primaryKeyColumns.size() > 0
@@ -421,6 +453,14 @@ public abstract class IntrospectedTable {
     
     public String getDAOImplementationPackage() {
         return (String) getAttribute(ATTR_DAO_IMPLEMENTATION_PACKAGE);
+    }
+    
+    public String getServiceInterfacePackage() {
+        return (String) getAttribute(ATTR_SERVICE_INTERFACE_PACKAGE);
+    }
+    
+    public String getServiceImplementationPackage() {
+        return (String) getAttribute(ATTR_SERVICE_IMPLEMENTATION_PACKAGE);
     }
     
     public String getJavaModelPackage() {
@@ -496,6 +536,11 @@ public abstract class IntrospectedTable {
         calculateDAOImplementationType();
         calculateDAOInterfaceType();
         
+        calculateServiceImplementationPackage();
+        calculateServiceInterfacePackage();
+        calculateServiceImplementationType();
+        calculateServiceInterfaceType();
+        
         calculateJavaModelPackage();
         calculatePrimaryKeyType();
         calculateBaseRecordType();
@@ -546,6 +591,35 @@ public abstract class IntrospectedTable {
         
         setAttribute(ATTR_DAO_INTERFACE_PACKAGE, sb.toString());
     }
+    //added by feisuo 
+    
+    private void calculateServiceImplementationPackage() {
+        ServiceGeneratorConfiguration config = ibatorContext.getServiceGeneratorConfiguration();
+        
+        StringBuilder sb = new StringBuilder();
+        if (StringUtility.stringHasValue(config.getImplementationPackage())) {
+            sb.append(config.getImplementationPackage());
+        } else {
+            sb.append(config.getTargetPackage());
+        }
+        if (StringUtility.isTrue(config.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES))) {
+            sb.append(fullyQualifiedTable.getSubPackage());
+        }
+        
+        setAttribute(ATTR_SERVICE_IMPLEMENTATION_PACKAGE, sb.toString());
+    }
+    
+    private void calculateServiceInterfacePackage() {
+    	ServiceGeneratorConfiguration config = ibatorContext.getServiceGeneratorConfiguration();
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(config.getTargetPackage());
+        if (StringUtility.isTrue(config.getProperty(PropertyRegistry.ANY_ENABLE_SUB_PACKAGES))) {
+            sb.append(fullyQualifiedTable.getSubPackage());
+        }
+        
+        setAttribute(ATTR_SERVICE_INTERFACE_PACKAGE, sb.toString());
+    }
     /**
      * 生成dao implement的文件名
      * **/
@@ -573,6 +647,35 @@ public abstract class IntrospectedTable {
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
 
         setAttribute(ATTR_DAO_INTERFACE_TYPE, fqjt);
+    }
+    
+    /**
+     * 生成service implement的文件名
+     * **/
+    private void calculateServiceImplementationType() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getServiceImplementationPackage());
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("ServiceImpl"); //$NON-NLS-1$
+
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
+
+        setAttribute(ATTR_SERVICE_IMPLEMENTATION_TYPE, fqjt);
+    }
+    /**
+     * 生成service 接口的文件名
+     * **/
+    private void calculateServiceInterfaceType() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getServiceInterfacePackage());
+        sb.append('.');
+        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append("Service"); //$NON-NLS-1$
+
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(sb.toString());
+
+        setAttribute(ATTR_SERVICE_INTERFACE_TYPE, fqjt);
     }
 
     private void calculateJavaModelPackage() {
