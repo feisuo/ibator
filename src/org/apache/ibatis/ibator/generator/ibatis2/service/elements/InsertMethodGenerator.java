@@ -29,6 +29,7 @@ import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.PrimitiveTypeWrapper;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
+import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 
 /**
  * 
@@ -47,16 +48,16 @@ public class InsertMethodGenerator extends AbstractServiceElementGenerator {
         Method method = getMethodShell(importedTypes);
         
         FullyQualifiedJavaType returnType = method.getReturnType();
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
-
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
+        
         StringBuilder sb = new StringBuilder();
 
         if (returnType != null) {
             sb.append("Object newKey = "); //$NON-NLS-1$
         }
 
-        sb.append(serviceTemplate.getInsertMethod(table.getSqlMapNamespace(),
-                XmlConstants.INSERT_STATEMENT_ID, "record")); //$NON-NLS-1$
+        sb.append(serviceTemplate.getInsertMethod(JavaBeansUtil.getPropertyName(dao.getShortName()),
+        		getServiceMethodNameCalculator().getInsertMethodName(introspectedTable), "record")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
 
         if (returnType != null) {

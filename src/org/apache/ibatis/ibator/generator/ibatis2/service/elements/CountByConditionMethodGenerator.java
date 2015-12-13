@@ -27,17 +27,18 @@ import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
+import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 
 /**
  * 
  * @author feisuo
  *
  */
-public class CountMethodGenerator extends AbstractServiceElementGenerator {
+public class CountByConditionMethodGenerator extends AbstractServiceElementGenerator {
 
     private boolean generateForJava5;
     
-    public CountMethodGenerator(boolean generateForJava5) {
+    public CountByConditionMethodGenerator(boolean generateForJava5) {
         super();
         this.generateForJava5 = generateForJava5;
     }
@@ -46,15 +47,14 @@ public class CountMethodGenerator extends AbstractServiceElementGenerator {
     public void addImplementationElements(TopLevelClass topLevelClass) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = getMethodShell(importedTypes);
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
-
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
+        
         // generate the implementation method
         StringBuilder sb = new StringBuilder();
 
         sb.append("Integer count = (Integer)  "); //$NON-NLS-1$
-        sb.append(serviceTemplate.getQueryForObjectMethod(table
-                .getSqlMapNamespace(),
-                XmlConstantsYrtz.COUNT_BY_CONDITION_STATEMENT_ID, "condition")); //$NON-NLS-1$
+        sb.append(serviceTemplate.getQueryForObjectMethod(JavaBeansUtil.getPropertyName(dao.getShortName()),
+        		getServiceMethodNameCalculator().getCountByConditionMethodName(introspectedTable), "condition")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
 
         if (generateForJava5) {

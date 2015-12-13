@@ -74,7 +74,8 @@ public class SelectByPrimaryKeyMethodGenerator extends AbstractServiceElementGen
             }
         }
 
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
+        
         FullyQualifiedJavaType returnType = method.getReturnType();
 
         sb.setLength(0);
@@ -82,9 +83,9 @@ public class SelectByPrimaryKeyMethodGenerator extends AbstractServiceElementGen
         sb.append(" record = ("); //$NON-NLS-1$
         sb.append(returnType.getShortName());
         sb.append(") "); //$NON-NLS-1$
-        sb.append(serviceTemplate.getQueryForObjectMethod(table
-                .getSqlMapNamespace(),
-                XmlConstants.SELECT_BY_PRIMARY_KEY_STATEMENT_ID, "key")); //$NON-NLS-1$
+        sb.append(serviceTemplate.getQueryForObjectMethod(
+        		JavaBeansUtil.getPropertyName(dao.getShortName()),
+        		getServiceMethodNameCalculator().getSelectByPrimaryKeyMethodName(introspectedTable), "key")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
         method.addBodyLine("return record;"); //$NON-NLS-1$
 

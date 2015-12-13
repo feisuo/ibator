@@ -29,7 +29,7 @@ import org.apache.ibatis.ibator.api.dom.java.Parameter;
 /**
  * Base class for Service templates.  Subclasses should override
  * any of the configureXXX methods to specify the unique properties
- * of the desired DAO objects.
+ * of the desired Service objects.
  * 
  * @author feisuo
  */
@@ -96,11 +96,11 @@ public abstract class AbstractServiceTemplate {
         return answer;
     }
 
-    public final String getDeleteMethod(String sqlMapNamespace, String statementId,
-            String parameter) {
+    public final String getDeleteMethod(String daoInstance, String method,
+            String parameter2) {
         configure();
         String answer = MessageFormat.format(deleteMethodTemplate,
-                new Object[] { sqlMapNamespace, statementId, parameter });
+                new Object[] { daoInstance,method, parameter2 });
 
         return answer;
     }
@@ -115,29 +115,29 @@ public abstract class AbstractServiceTemplate {
         return implementationImports;
     }
 
-    public final String getInsertMethod(String sqlMapNamespace, String statementId,
+    public final String getInsertMethod(String daoInstance, String method,
             String parameter) {
         configure();
         String answer = MessageFormat.format(insertMethodTemplate,
-                new Object[] { sqlMapNamespace, statementId, parameter });
+                new Object[] { daoInstance, method,parameter });
 
         return answer;
     }
 
-    public final String getQueryForListMethod(String sqlMapNamespace, String statementId,
+    public final String getQueryForListMethod(String daoInstance, String method,
             String parameter) {
         configure();
         String answer = MessageFormat.format(queryForListMethodTemplate,
-                new Object[] { sqlMapNamespace, statementId, parameter });
+                new Object[] { daoInstance, method, parameter });
 
         return answer;
     }
 
-    public final String getQueryForObjectMethod(String sqlMapNamespace, String statementId,
+    public final String getQueryForObjectMethod(String daoInstance, String method,
             String parameter) {
         configure();
         String answer = MessageFormat.format(queryForObjectMethodTemplate,
-                new Object[] { sqlMapNamespace, statementId, parameter });
+                new Object[] { daoInstance,method, parameter });
 
         return answer;
     }
@@ -147,11 +147,11 @@ public abstract class AbstractServiceTemplate {
         return superClass;
     }
 
-    public final String getUpdateMethod(String sqlMapNamespace, String statementId,
+    public final String getUpdateMethod(String daoInstance, String method,
             String parameter) {
         configure();
         String answer = MessageFormat.format(updateMethodTemplate,
-                new Object[] { sqlMapNamespace, statementId, parameter });
+                new Object[] { daoInstance, method, parameter });
 
         return answer;
     }
@@ -262,10 +262,10 @@ public abstract class AbstractServiceTemplate {
     }
     
     /**
-     * This method is called in the constructor to configure the DAO template.
+     * This method is called in the constructor to configure the Service template.
      * Subclasses should implement the individual configureXXX methods to
-     * setup the relevant parts of the DAO template (super class,
-     * extra methods, etc.) that are relevant for this specific type of DAO.
+     * setup the relevant parts of the Service template (super class,
+     * extra methods, etc.) that are relevant for this specific type of Service.
      */
     private void configure() {
         if (!configured) {
@@ -287,63 +287,63 @@ public abstract class AbstractServiceTemplate {
     
     /**
      * Override this method to add checked exceptions to the
-     * throws clause of any generated DAO method.  When overriding
+     * throws clause of any generated Service method.  When overriding
      * this method, call <code>addCheckedException(FullyQualifiedJavaType)</code>
      * one or more times to add checked exception(s) to all generated
-     * DAO methods.
+     * Service methods.
      */
     protected void configureCheckedExceptions() { }
     
     /**
      * Override this method to add fields to any
-     * generated DAO implementation class.  When overriding
+     * generated Service implementation class.  When overriding
      * this method, call <code>addField(Field)</code> one
      * or more times to add field(s) to the generated
-     * DAO implementation class.
+     * Service implementation class.
      */
     protected void configureFields() {}
     
     /**
      * Override this method to add imports to 
-     * generated DAO implementation classes.  When overriding
+     * generated Service implementation classes.  When overriding
      * this method, call
      * <code>addImplementationImport(FullyQualifiedJavaType)</code> one
      * or more times to add import(s) to generated
-     * DAO implementation classes.
+     * Service implementation classes.
      */
     protected void configureImplementationImports() {}
     
     /**
      * Override this method to add imports to
-     * generated DAO interface classes.  When overriding
+     * generated Service interface classes.  When overriding
      * this method, call
      * <code>addInterfaceImport(FullyQualifiedJavaType)</code> one
      * or more times to add import(s) to generated
-     * DAO interface classes.
+     * Service interface classes.
      */
     protected void configureInterfaceImports() {}
 
     /**
      * Override this method to add methods to
-     * generated DAO implementation classes.  When overriding
+     * generated Service implementation classes.  When overriding
      * this method, call
      * <code>addMethod(Method)</code> one
      * or more times to add method(s) to generated
-     * DAO implementation classes.
+     * Service implementation classes.
      */
     protected void configureMethods() {}
     
     /**
      * Override this method to set the superclass for any
-     * generated DAO implementation class.  When overriding this
+     * generated Service implementation class.  When overriding this
      * method call <code>setSuperClass(FullyQualifiedJavaType)</code>
-     * to set the superclass for generated DAO implementation classes.
+     * to set the superclass for generated Service implementation classes.
      */
     protected void configureSuperClass() {}
     
     /**
      * Override this method to configure a constructor for generated
-     * DAO implementation classes.  During code generation, ibator will
+     * Service implementation classes.  During code generation, ibator will
      * build a new constructor using the visibility, parameters, body lines,
      * and exceptions set on the constructor template.  When overriding this
      * method, call <code>setConstructorTemplate(Method)</code> to

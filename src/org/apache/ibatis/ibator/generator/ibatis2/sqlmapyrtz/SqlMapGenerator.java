@@ -21,24 +21,25 @@ import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.generator.AbstractXmlGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.AbstractXmlElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.CountByExampleElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteByExampleElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.DeleteByPrimaryKeyElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.ExampleWhereClauseElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.InsertSelectiveElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.ResultMapWithBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.ResultMapWithoutBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.SelectByExampleWithBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.SelectByExampleWithoutBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.SelectByPrimaryKeyElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.UpdateByExampleSelectiveElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.UpdateByExampleWithBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.UpdateByExampleWithoutBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.UpdateByPrimaryKeySelectiveElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.UpdateByPrimaryKeyWithBLOBsElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements.UpdateByPrimaryKeyWithoutBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.AbstractXmlElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.CountByExampleElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.DeleteByExampleElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.DeleteByPrimaryKeyElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ExampleWhereClauseElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.InsertElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.InsertSelectiveElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ResultMapWithBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ResultMapWithoutBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByExampleWithBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByExampleWithoutBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByPrimaryKeyElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.UpdateByExampleSelectiveElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.UpdateByExampleWithBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.UpdateByExampleWithoutBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.UpdateByPrimaryKeySelectiveElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.UpdateByPrimaryKeyWithBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.UpdateByPrimaryKeyWithoutBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.FeisuoDemoElementGenerator;
 import org.apache.ibatis.ibator.internal.util.messages.Messages;
 
 /**
@@ -79,7 +80,7 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
         addUpdateByPrimaryKeySelectiveElement(answer);
 //        addUpdateByPrimaryKeyWithBLOBsElement(answer);
 //        addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
-
+        feisuoDemo(answer);
         return answer;
     }
     
@@ -198,6 +199,13 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
     protected void addUpdateByPrimaryKeyWithoutBLOBsElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateUpdateByPrimaryKeyWithoutBLOBs()) {
             AbstractXmlElementGenerator elementGenerator = new UpdateByPrimaryKeyWithoutBLOBsElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void feisuoDemo(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateUpdateByPrimaryKeyWithoutBLOBs()) {
+            AbstractXmlElementGenerator elementGenerator = new FeisuoDemoElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }

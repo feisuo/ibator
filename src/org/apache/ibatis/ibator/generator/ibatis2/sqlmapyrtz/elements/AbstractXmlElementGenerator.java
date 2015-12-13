@@ -51,8 +51,7 @@ public abstract class AbstractXmlElementGenerator extends AbstractGenerator {
     
         XmlElement answer = new XmlElement("selectKey"); //$NON-NLS-1$
         answer.addAttribute(new Attribute("resultClass", identityColumnType)); //$NON-NLS-1$
-        answer.addAttribute(new Attribute(
-                "keyProperty", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("keyProperty", introspectedColumn.getJavaProperty())); //$NON-NLS-1$
         if(StringUtility.stringHasValue(generatedKey.getType())) {
           answer.addAttribute(new Attribute("type", generatedKey.getType())); //$NON-NLS-1$  
         }

@@ -96,6 +96,16 @@ public class JavaBeansUtil {
 
 		return sb.toString();
 	}
+	public static String getPropertyName(String property) {
+		StringBuilder sb = new StringBuilder();
+		if(property.length()>0){
+			char c= property.charAt(0);
+			sb.append(Character.toLowerCase(c));
+			sb.append(property.substring(1));
+		}
+
+		return sb.toString();
+	}
 
 	public static String getCamelCaseString(String inputString,
 			boolean firstCharacterUppercase) {

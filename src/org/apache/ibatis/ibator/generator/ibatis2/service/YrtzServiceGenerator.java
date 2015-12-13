@@ -20,17 +20,19 @@ import java.util.List;
 
 import org.apache.ibatis.ibator.api.CommentGenerator;
 import org.apache.ibatis.ibator.api.FullyQualifiedTable;
+import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.api.dom.java.CompilationUnit;
 import org.apache.ibatis.ibator.api.dom.java.Field;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.Method;
+import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.config.PropertyRegistry;
 import org.apache.ibatis.ibator.generator.AbstractJavaGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.AbstractServiceElementGenerator;
-import org.apache.ibatis.ibator.generator.ibatis2.service.elements.CountMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.service.elements.CountByConditionMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.DeleteByExampleMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.InsertMethodGenerator;
@@ -39,7 +41,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.service.elements.SelectByPrima
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.UpdateByExampleSelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.UpdateByPrimaryKeySelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.templates.AbstractServiceTemplate;
-import org.apache.ibatis.ibator.internal.rules.IbatorRules;
+import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 import org.apache.ibatis.ibator.internal.util.StringUtility;
 import org.apache.ibatis.ibator.internal.util.messages.Messages;
 
@@ -67,7 +69,7 @@ public class YrtzServiceGenerator extends AbstractJavaGenerator {
         TopLevelClass topLevelClass = getTopLevelClassShell();
         Interface interfaze = getInterfaceShell();
         
-        addCountMethod(topLevelClass, interfaze);
+        addCountByConditionMethod(topLevelClass, interfaze);
         addDeleteByPrimaryKeyMethod(topLevelClass, interfaze);
         addInsertMethod(topLevelClass, interfaze);
         addInsertSelectiveMethod(topLevelClass, interfaze);
@@ -88,6 +90,8 @@ public class YrtzServiceGenerator extends AbstractJavaGenerator {
     protected TopLevelClass getTopLevelClassShell() {
         FullyQualifiedJavaType interfaceType = introspectedTable.getServiceInterfaceType();
         FullyQualifiedJavaType implementationType = introspectedTable.getServiceImplementationType();
+        FullyQualifiedJavaType interfaceDao =  introspectedTable.getDAOInterfaceType();
+        
         
         CommentGenerator commentGenerator = ibatorContext.getCommentGenerator();
         
@@ -102,24 +106,23 @@ public class YrtzServiceGenerator extends AbstractJavaGenerator {
         for (FullyQualifiedJavaType fqjt : serviceTemplate.getImplementationImports()) {
             answer.addImportedType(fqjt);
         }
+        //add DAO import
+        answer.addImportedType(introspectedTable.getDAOInterfaceType());
         
         commentGenerator.addJavaFileComment(answer);
   
-        //yrtz去掉构造方法
-        // add constructor from the template
-//        answer.addMethod(daoTemplate.getConstructorClone(commentGenerator,
-//                implementationType, table));
-
-        // add any fields from the template
         for (Field field : serviceTemplate.getFieldClones(commentGenerator, table)) {
             answer.addField(field);
         }
-
+        answer.addField(addDaoField(interfaceDao));
+        
+        //add dao getter and setter method
+        answer.addMethod(getJavaBeansSetter(interfaceDao));
+        answer.addMethod(getJavaBeansGetter(interfaceDao));
         // add any methods from the template
         for (Method method : serviceTemplate.getMethodClones(commentGenerator, table)) {
             answer.addMethod(method);
         }
-        
         return answer;
     }
     
@@ -141,15 +144,80 @@ public class YrtzServiceGenerator extends AbstractJavaGenerator {
         for (FullyQualifiedJavaType fqjt : serviceTemplate.getInterfaceImports()) {
             answer.addImportedType(fqjt);
         }
-
+        //add DAO importedtype
+        answer.addImportedType(introspectedTable.getDAOInterfaceType());
+        
         ibatorContext.getCommentGenerator().addJavaFileComment(answer);
 
         return answer;
     }
     
-    protected void addCountMethod(TopLevelClass topLevelClass, Interface interfaze) {
+    //add DAO Filed
+    protected Field addDaoField(FullyQualifiedJavaType interfaceDao){
+    	
+    	 Field field = new Field();
+    	 String property = JavaBeansUtil.getPropertyName(interfaceDao.getShortName());
+         field.setVisibility(JavaVisibility.PRIVATE);
+         field.setType(introspectedTable.getDAOInterfaceType());
+         field.setName(property); //$NON-NLS-1$
+         return field;
+    }
+    //add dao getter and setter method
+    public Method getJavaBeansSetter(FullyQualifiedJavaType interfaceDao) {
+        String property = JavaBeansUtil.getPropertyName(interfaceDao.getShortName());
+        Method method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setName(JavaBeansUtil.getSetterMethodName(property));
+        method.addParameter(new Parameter(interfaceDao, property));
+        ibatorContext.getCommentGenerator().addSetterComment(method,
+                introspectedTable.getFullyQualifiedTable(),
+                interfaceDao.getShortName());
+
+        StringBuilder sb = new StringBuilder();
+//        if (isTrimStringsEnabled() && introspectedColumn.isStringColumn()) {
+//            sb.append("this."); //$NON-NLS-1$
+//            sb.append(property);
+//            sb.append(" = "); //$NON-NLS-1$
+//            sb.append(property);
+//            sb.append(" == null ? null : "); //$NON-NLS-1$
+//            sb.append(property);
+//            sb.append(".trim();"); //$NON-NLS-1$
+//            method.addBodyLine(sb.toString());
+//        } else {
+            sb.append("this."); //$NON-NLS-1$
+            sb.append(property);
+            sb.append(" = "); //$NON-NLS-1$
+            sb.append(property);
+            sb.append(';');
+            method.addBodyLine(sb.toString());
+//        }
+
+        return method;
+    }
+
+    public Method getJavaBeansGetter(FullyQualifiedJavaType interfaceDao) {
+        String property = JavaBeansUtil.getPropertyName(interfaceDao.getShortName());
+
+        Method method = new Method();
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setReturnType(interfaceDao);
+        method.setName(JavaBeansUtil.getGetterMethodName(property, interfaceDao));
+        ibatorContext.getCommentGenerator().addGetterComment(method,
+                introspectedTable.getFullyQualifiedTable(),
+                property);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("return "); //$NON-NLS-1$
+        sb.append(property);
+        sb.append(';');
+        method.addBodyLine(sb.toString());
+
+        return method;
+    }
+    
+    protected void addCountByConditionMethod(TopLevelClass topLevelClass, Interface interfaze) {
         if (introspectedTable.getRules().generateCountByExample()) {
-        	AbstractServiceElementGenerator methodGenerator = new CountMethodGenerator(generateForJava5);
+        	AbstractServiceElementGenerator methodGenerator = new CountByConditionMethodGenerator(generateForJava5);
             initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
         }
     }

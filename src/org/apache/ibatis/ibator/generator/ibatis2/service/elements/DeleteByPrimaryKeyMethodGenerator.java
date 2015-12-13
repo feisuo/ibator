@@ -74,9 +74,12 @@ public class DeleteByPrimaryKeyMethodGenerator extends AbstractServiceElementGen
 
         sb.setLength(0);
         sb.append("int rows = "); //$NON-NLS-1$
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
-        sb.append(serviceTemplate.getDeleteMethod(table.getSqlMapNamespace(),
-                XmlConstants.DELETE_BY_PRIMARY_KEY_STATEMENT_ID, "key")); //$NON-NLS-1$
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
+        
+        sb.append(serviceTemplate.getDeleteMethod(JavaBeansUtil.getPropertyName(dao.getShortName())+"."
+               +getServiceMethodNameCalculator()
+               .getDeleteByPrimaryKeyMethodName(introspectedTable),
+               "code", "id")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
         method.addBodyLine("return rows;"); //$NON-NLS-1$
 

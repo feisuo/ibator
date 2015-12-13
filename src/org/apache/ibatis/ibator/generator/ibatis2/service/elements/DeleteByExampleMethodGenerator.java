@@ -26,6 +26,7 @@ import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
+import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 
 /**
  * 
@@ -44,10 +45,12 @@ public class DeleteByExampleMethodGenerator extends AbstractServiceElementGenera
         Method method = getMethodShell(importedTypes);
 
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
+        
         StringBuilder sb = new StringBuilder();
         sb.append("int rows = "); //$NON-NLS-1$
-        sb.append(serviceTemplate.getDeleteMethod(table.getSqlMapNamespace(),
-                XmlConstants.DELETE_BY_EXAMPLE_STATEMENT_ID, "example")); //$NON-NLS-1$
+        sb.append(serviceTemplate.getDeleteMethod(JavaBeansUtil.getPropertyName(dao.getShortName()),
+        		getServiceMethodNameCalculator().getDeleteByConditionMethodName(introspectedTable), "example")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
         method.addBodyLine("return rows;"); //$NON-NLS-1$
 

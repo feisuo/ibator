@@ -40,8 +40,7 @@ public class CountByExampleElementGenerator extends AbstractXmlElementGenerator 
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         FullyQualifiedJavaType fqjt = introspectedTable.getExampleType();
 
-        answer
-                .addAttribute(new Attribute(
+        answer.addAttribute(new Attribute(
                         "id", XmlConstantsYrtz.COUNT_BY_CONDITION_STATEMENT_ID)); //$NON-NLS-1$
         answer.addAttribute(new Attribute(
                 "parameterClass", fqjt.getFullyQualifiedName())); //$NON-NLS-1$

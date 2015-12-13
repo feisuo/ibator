@@ -15,6 +15,7 @@
  */
 package org.apache.ibatis.ibator.generator.ibatis2.service.templates;
 
+import org.apache.ibatis.ibator.api.dom.java.Field;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.Method;
@@ -31,7 +32,18 @@ public class YrtzServiceTemplate extends AbstractServiceTemplate {
         super();
     }
 
+    
     @Override
+	protected void configureFields() {
+//        Field field = new Field();
+//        field.setVisibility(JavaVisibility.PRIVATE);
+////        field.setType("javaType");
+//        field.setName("sqlMapClient"); //$NON-NLS-1$
+//        addField(field);
+	}
+
+
+	@Override
     protected void configureConstructorTemplate() {
         Method method = new Method();
         method.setConstructor(true);
@@ -42,22 +54,22 @@ public class YrtzServiceTemplate extends AbstractServiceTemplate {
 
     @Override
     protected void configureDeleteMethodTemplate() {
-        setDeleteMethodTemplate("dao.delete({0});"); //$NON-NLS-1$
+        setDeleteMethodTemplate("{0}({1},{2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureInsertMethodTemplate() {
-        setInsertMethodTemplate("dao.insert({0});"); //$NON-NLS-1$
+        setInsertMethodTemplate("{0}.{1}({2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureQueryForListMethodTemplate() {
-        setQueryForListMethodTemplate("dao.queryForList({0});"); //$NON-NLS-1$
+        setQueryForListMethodTemplate("{0}.{1}({2});"); //$NON-NLS-1$
     }
 
     @Override
     protected void configureQueryForObjectMethodTemplate() {
-        setQueryForObjectMethodTemplate("dao.queryForObject({0});"); //$NON-NLS-1$
+        setQueryForObjectMethodTemplate("{0}.{1}({2});"); //$NON-NLS-1$
     }
 
     @Override
@@ -67,7 +79,7 @@ public class YrtzServiceTemplate extends AbstractServiceTemplate {
 
     @Override
     protected void configureUpdateMethodTemplate() {
-        setUpdateMethodTemplate("dao.update({0});"); //$NON-NLS-1$
+        setUpdateMethodTemplate("{0}.{1}({2});"); //$NON-NLS-1$
     }
     
     @Override

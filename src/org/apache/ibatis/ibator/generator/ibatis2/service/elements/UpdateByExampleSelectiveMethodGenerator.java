@@ -26,6 +26,7 @@ import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
+import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 
 /**
  * 
@@ -39,17 +40,17 @@ public class UpdateByExampleSelectiveMethodGenerator extends
     public void addImplementationElements(TopLevelClass topLevelClass) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = getMethodShell(importedTypes);
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
+        
 
-        method
-                .addBodyLine("UpdateByExampleParms parms = new UpdateByExampleParms(record, example);"); //$NON-NLS-1$
+        method.addBodyLine("UpdateByConditionParms parms = new UpdateByConditionParms(record, condition);"); //$NON-NLS-1$
 
         StringBuilder sb = new StringBuilder();
 
         sb.append("int rows = "); //$NON-NLS-1$
 
-        sb.append(serviceTemplate.getUpdateMethod(table.getSqlMapNamespace(),
-                        XmlConstants.UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID,
+        sb.append(serviceTemplate.getUpdateMethod(JavaBeansUtil.getPropertyName(dao.getShortName()),
+        		getServiceMethodNameCalculator().getUpdateByConditionSelectiveMethodName(introspectedTable),
                         "parms")); //$NON-NLS-1$
         method.addBodyLine(sb.toString());
 
