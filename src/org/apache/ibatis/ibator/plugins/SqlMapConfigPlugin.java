@@ -22,6 +22,8 @@ import java.util.List;
 import org.apache.ibatis.ibator.api.GeneratedXmlFile;
 import org.apache.ibatis.ibator.api.IbatorPluginAdapter;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
+import org.apache.ibatis.ibator.api.dom.java.Interface;
+import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.api.dom.xml.Attribute;
 import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.api.dom.xml.TextElement;
@@ -140,4 +142,20 @@ public class SqlMapConfigPlugin extends IbatorPluginAdapter {
 
         return true;
     }
+
+	@Override
+	public boolean serviceInterfaceGenerated(Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+    
+    
 }

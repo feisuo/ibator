@@ -22,6 +22,8 @@ import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.generator.AbstractXmlGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.AbstractXmlElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ConditionWhereClauseElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.CountByConditionElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.CountByExampleElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.DeleteByExampleElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.DeleteByPrimaryKeyElementGenerator;
@@ -30,6 +32,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.InsertElem
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.InsertSelectiveElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ResultMapWithBLOBsElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ResultMapWithoutBLOBsElementGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByConditionElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByExampleWithBLOBsElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByExampleWithoutBLOBsElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.SelectByPrimaryKeyElementGenerator;
@@ -65,15 +68,18 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
         
         addResultMapWithoutBLOBsElement(answer);
         addResultMapWithBLOBsElement(answer);
-        addExampleWhereClauseElement(answer);
+        addConditionWhereClauseElement(answer);
+//        addExampleWhereClauseElement(answer);
 //        addSelectByExampleWithBLOBsElement(answer);
 //        addSelectByExampleWithoutBLOBsElement(answer);
+//        addCountByExampleElement(answer);
+        addCountByConditionElement(answer);
+        addSelectByConditionElement(answer);
         addSelectByPrimaryKeyElement(answer);
         addDeleteByPrimaryKeyElement(answer);
         addDeleteByExampleElement(answer);
         addInsertElement(answer);
         addInsertSelectiveElement(answer);
-        addCountByExampleElement(answer);
         addUpdateByExampleSelectiveElement(answer);
 //        addUpdateByExampleWithBLOBsElement(answer);
 //        addUpdateByExampleWithoutBLOBsElement(answer);
@@ -101,6 +107,13 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
     protected void addExampleWhereClauseElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateSQLExampleWhereClause()) {
             AbstractXmlElementGenerator elementGenerator = new ExampleWhereClauseElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addConditionWhereClauseElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateSQLExampleWhereClause()) {
+            AbstractXmlElementGenerator elementGenerator = new ConditionWhereClauseElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
@@ -157,6 +170,20 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
     protected void addCountByExampleElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateCountByExample()) {
             AbstractXmlElementGenerator elementGenerator = new CountByExampleElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addCountByConditionElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateCountByExample()) {
+            AbstractXmlElementGenerator elementGenerator = new CountByConditionElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addSelectByConditionElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateCountByExample()) {
+            AbstractXmlElementGenerator elementGenerator = new SelectByConditionElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }

@@ -23,6 +23,7 @@ import org.apache.ibatis.ibator.api.IntrospectedColumn;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.api.dom.OutputUtilities;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
+import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.Parameter;
@@ -285,4 +286,18 @@ public class EqualsHashCodePlugin extends IbatorPluginAdapter {
         
         topLevelClass.addMethod(method);
     }
+
+	@Override
+	public boolean serviceInterfaceGenerated(Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

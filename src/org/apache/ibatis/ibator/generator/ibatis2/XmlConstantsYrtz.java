@@ -60,6 +60,11 @@ public class XmlConstantsYrtz {
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
         sb.append("selectByExample"); //$NON-NLS-1$
         SELECT_BY_EXAMPLE_STATEMENT_ID = sb.toString();
+        
+        sb.setLength(0);
+        sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
+        sb.append("selectByCondition"); //$NON-NLS-1$
+        SELECT_BY_CONDITION_STATEMENT_ID = sb.toString();
 
         sb.setLength(0);
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
@@ -115,6 +120,11 @@ public class XmlConstantsYrtz {
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
         sb.append("Example_Where_Clause"); //$NON-NLS-1$
         EXAMPLE_WHERE_CLAUSE_ID = sb.toString();
+        
+        sb.setLength(0);
+        sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
+        sb.append("Condition_Where_Clause"); //$NON-NLS-1$
+        CONDITION_WHERE_CLAUSE_ID = sb.toString();
     }
 
     public static final String SQL_MAP_SYSTEM_ID = "http://ibatis.apache.org/dtd/sql-map-2.dtd"; //$NON-NLS-1$
@@ -141,6 +151,8 @@ public class XmlConstantsYrtz {
     
     public static final String SELECT_BY_EXAMPLE_STATEMENT_ID;
     
+    public static final String SELECT_BY_CONDITION_STATEMENT_ID;
+    
     public static final String SELECT_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID;
     
     public static final String SELECT_BY_PRIMARY_KEY_STATEMENT_ID;
@@ -162,4 +174,6 @@ public class XmlConstantsYrtz {
     public static final String RESULT_MAP_WITH_BLOBS_ID;
     
     public static final String EXAMPLE_WHERE_CLAUSE_ID;
+    
+    public static final String CONDITION_WHERE_CLAUSE_ID;
 }

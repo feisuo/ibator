@@ -107,6 +107,9 @@ public class SelectByPrimaryKeyElementGenerator extends AbstractXmlElementGenera
             sb.append(introspectedColumn.getIbatisFormattedParameterClause());
             answer.addElement(new TextElement(sb.toString()));
         }
+        sb.setLength(0);
+        sb.append("ORDER BY ID DESC LIMIT $startnum$,$pagenum$");
+        answer.addElement(new TextElement(sb.toString()));
 
         if (ibatorContext.getPlugins().sqlMapSelectByPrimaryKeyElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);

@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 import org.apache.ibatis.ibator.api.IbatorPluginAdapter;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
+import org.apache.ibatis.ibator.api.dom.java.Interface;
+import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.internal.util.StringUtility;
 import org.apache.ibatis.ibator.internal.util.messages.Messages;
 
@@ -99,4 +101,18 @@ public class RenameExampleClassPlugin extends IbatorPluginAdapter {
         introspectedTable.setAttribute(IntrospectedTable.ATTR_EXAMPLE_TYPE,
                 new FullyQualifiedJavaType(typeName));
     }
+
+	@Override
+	public boolean serviceInterfaceGenerated(Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

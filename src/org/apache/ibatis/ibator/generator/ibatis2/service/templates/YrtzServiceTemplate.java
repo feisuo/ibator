@@ -32,16 +32,6 @@ public class YrtzServiceTemplate extends AbstractServiceTemplate {
         super();
     }
 
-    
-    @Override
-	protected void configureFields() {
-//        Field field = new Field();
-//        field.setVisibility(JavaVisibility.PRIVATE);
-////        field.setType("javaType");
-//        field.setName("sqlMapClient"); //$NON-NLS-1$
-//        addField(field);
-	}
-
 
 	@Override
     protected void configureConstructorTemplate() {

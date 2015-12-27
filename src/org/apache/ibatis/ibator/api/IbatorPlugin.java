@@ -917,6 +917,19 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean sqlMapExampleWhereClauseElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    
+    /**
+     * This method is called when the conditionWhereClause element is generated.
+     * 
+     * @param element the generated &lt;sql&gt; element
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the element should be generated, false
+     *   if the generated element should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean sqlMapConditionWhereClauseElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
 
     /**
      * This method is called when the insert element is generated.
@@ -996,6 +1009,19 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean sqlMapSelectByExampleWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    
+    /**
+     * This method is called when the sqlMapSelectByConditionElementGenerated element is generated.
+     * 
+     * @param element the generated &lt;select&gt; element
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the element should be generated, false
+     *   if the generated element should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean sqlMapSelectByConditionElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
 
     /**
      * This method is called when the updateByExampleSelective element is generated.

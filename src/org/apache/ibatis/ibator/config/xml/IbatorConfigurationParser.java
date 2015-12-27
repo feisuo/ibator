@@ -345,6 +345,8 @@ public class IbatorConfigurationParser {
                 .getProperty("selectByPrimaryKeyQueryId"); //$NON-NLS-1$
         String selectByExampleQueryId = attributes
                 .getProperty("selectByExampleQueryId"); //$NON-NLS-1$
+        String selectByConditionQueryId = attributes
+                .getProperty("selectByConditionQueryId"); //$NON-NLS-1$
         String modelType = attributes.getProperty("modelType"); //$NON-NLS-1$
         String escapeWildcards = attributes.getProperty("escapeWildcards"); //$NON-NLS-1$
         String delmitIdentifiers = attributes.getProperty("delimitIdentifiers"); //$NON-NLS-1$
@@ -407,6 +409,10 @@ public class IbatorConfigurationParser {
 
         if (StringUtility.stringHasValue(selectByExampleQueryId)) {
             tc.setSelectByExampleQueryId(selectByExampleQueryId);
+        }
+        
+        if (StringUtility.stringHasValue(selectByConditionQueryId)) {
+            tc.setSelectByConditionQueryId(selectByConditionQueryId);
         }
 
         if (StringUtility.stringHasValue(modelType)) {

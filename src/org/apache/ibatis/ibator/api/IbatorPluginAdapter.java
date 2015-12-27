@@ -243,6 +243,10 @@ public abstract class IbatorPluginAdapter implements IbatorPlugin {
     public boolean sqlMapExampleWhereClauseElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
         return true;
     }
+    
+    public boolean sqlMapConditionWhereClauseElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+        return true;
+    }
 
     public boolean sqlMapGenerated(GeneratedXmlFile sqlMap, IntrospectedTable introspectedTable) {
         return true;

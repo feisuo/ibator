@@ -223,6 +223,22 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
         return rc;
     }
 
+	@Override
+	public boolean sqlMapConditionWhereClauseElementGenerated(
+			XmlElement element, IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (IbatorPlugin plugin : plugins) {
+            if (!plugin.sqlMapConditionWhereClauseElementGenerated(element,
+                    introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+	}
+
     public boolean sqlMapInsertElementGenerated(XmlElement element,
             IntrospectedTable introspectedTable) {
         boolean rc = true;
@@ -289,6 +305,21 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 
         for (IbatorPlugin plugin : plugins) {
             if (!plugin.sqlMapSelectByPrimaryKeyElementGenerated(element,
+                    introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+    }
+    
+    public boolean sqlMapSelectByConditionElementGenerated(XmlElement element,
+            IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (IbatorPlugin plugin : plugins) {
+            if (!plugin.sqlMapSelectByConditionElementGenerated(element,
                     introspectedTable)) {
                 rc = false;
                 break;
@@ -967,4 +998,5 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
             plugin.initialized(introspectedTable);
         }
     }
+
 }

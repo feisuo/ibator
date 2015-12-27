@@ -22,6 +22,7 @@ import org.apache.ibatis.ibator.api.IbatorPluginAdapter;
 import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.api.dom.java.Field;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
+import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 
@@ -86,4 +87,18 @@ public class SerializablePlugin extends IbatorPluginAdapter {
 
         topLevelClass.addField(field);
     }
+
+	@Override
+	public boolean serviceInterfaceGenerated(Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

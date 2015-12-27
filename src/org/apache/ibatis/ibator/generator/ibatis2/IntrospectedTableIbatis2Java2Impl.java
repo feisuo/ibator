@@ -41,10 +41,6 @@ import org.apache.ibatis.ibator.generator.ibatis2.model.PrimaryKeyGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.model.RecordWithBLOBsGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.YrtzServiceGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.templates.AbstractServiceTemplate;
-import org.apache.ibatis.ibator.generator.ibatis2.service.templates.GenericCIServiceTemplate;
-import org.apache.ibatis.ibator.generator.ibatis2.service.templates.GenericSIServiceTemplate;
-import org.apache.ibatis.ibator.generator.ibatis2.service.templates.IbatisServiceTemplate;
-import org.apache.ibatis.ibator.generator.ibatis2.service.templates.SpringServiceTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.service.templates.YrtzServiceTemplate;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.SqlMapGenerator;
 import org.apache.ibatis.ibator.internal.IbatorObjectFactory;
@@ -116,15 +112,7 @@ public class IntrospectedTableIbatis2Java2Impl extends IntrospectedTable {
         String type = ibatorContext.getServiceGeneratorConfiguration().getConfigurationType();
         
         AbstractServiceTemplate abstractServiceTemplate;
-        if ("IBATIS".equalsIgnoreCase(type)) { //$NON-NLS-1$
-        	abstractServiceTemplate = new IbatisServiceTemplate();
-        } else if ("SPRING".equalsIgnoreCase(type)) { //$NON-NLS-1$
-        	abstractServiceTemplate = new SpringServiceTemplate();
-        } else if ("GENERIC-CI".equalsIgnoreCase(type)) { //$NON-NLS-1$
-        	abstractServiceTemplate = new GenericCIServiceTemplate();
-        } else if ("GENERIC-SI".equalsIgnoreCase(type)) { //$NON-NLS-1$
-        	abstractServiceTemplate = new GenericSIServiceTemplate();
-        }else if("YRTZ".equalsIgnoreCase(type)){
+        if("YRTZ".equalsIgnoreCase(type)){
         	abstractServiceTemplate= new YrtzServiceTemplate();
         } else {
         	abstractServiceTemplate = (AbstractServiceTemplate) IbatorObjectFactory.createInternalObject(type);

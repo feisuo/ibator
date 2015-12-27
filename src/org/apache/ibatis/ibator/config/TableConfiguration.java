@@ -37,6 +37,10 @@ public class TableConfiguration extends PropertyHolder {
 	private boolean selectByPrimaryKeyStatementEnabled;
 
 	private boolean selectByExampleStatementEnabled;
+	
+	private boolean selectByConditionStatementEnabled;
+	
+
 
 	private boolean updateByPrimaryKeyStatementEnabled;
 
@@ -57,6 +61,8 @@ public class TableConfiguration extends PropertyHolder {
 	private String selectByPrimaryKeyQueryId;
 
 	private String selectByExampleQueryId;
+	
+	private String selectByConditionQueryId;
     
     private String catalog;
     private String schema;
@@ -86,6 +92,8 @@ public class TableConfiguration extends PropertyHolder {
 		deleteByExampleStatementEnabled = true;
         countByExampleStatementEnabled = true;
         updateByExampleStatementEnabled = true;
+        
+        selectByConditionStatementEnabled = true;
 	}
 
 	public boolean isDeleteByPrimaryKeyStatementEnabled() {
@@ -185,6 +193,16 @@ public class TableConfiguration extends PropertyHolder {
 			boolean selectByExampleStatementEnabled) {
 		this.selectByExampleStatementEnabled = selectByExampleStatementEnabled;
 	}
+	
+	
+	public boolean isSelectByConditionStatementEnabled() {
+		return selectByConditionStatementEnabled;
+	}
+
+	public void setSelectByConditionStatementEnabled(
+			boolean selectByConditionStatementEnabled) {
+		this.selectByConditionStatementEnabled = selectByConditionStatementEnabled;
+	}
 
 	/**
 	 * May return null if the column has not been overridden
@@ -219,6 +237,10 @@ public class TableConfiguration extends PropertyHolder {
 	public void setSelectByExampleQueryId(String selectByExampleQueryId) {
 		this.selectByExampleQueryId = selectByExampleQueryId;
 	}
+	
+	public void setSelectByConditionQueryId(String selectByConditionQueryId){
+		this.selectByConditionQueryId=selectByConditionQueryId;
+	}
 
 	public String getSelectByPrimaryKeyQueryId() {
 		return selectByPrimaryKeyQueryId;
@@ -245,7 +267,8 @@ public class TableConfiguration extends PropertyHolder {
 	    	|| deleteByExampleStatementEnabled
 	    	|| deleteByPrimaryKeyStatementEnabled
             || countByExampleStatementEnabled
-            || updateByExampleStatementEnabled;
+            || updateByExampleStatementEnabled
+            || selectByConditionStatementEnabled;
 	}
 
     public void setGeneratedKey(GeneratedKey generatedKey) {
@@ -365,6 +388,10 @@ public class TableConfiguration extends PropertyHolder {
             xmlElement.addAttribute(new Attribute("enableSelectByExample", "false")); //$NON-NLS-1$ //$NON-NLS-2$
         }
         
+        if (!selectByConditionStatementEnabled) {
+            xmlElement.addAttribute(new Attribute("enableSelectByCondition", "false")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
         if (!updateByPrimaryKeyStatementEnabled) {
             xmlElement.addAttribute(new Attribute("enableUpdateByPrimaryKey", "false")); //$NON-NLS-1$ //$NON-NLS-2$
         }
@@ -391,6 +418,10 @@ public class TableConfiguration extends PropertyHolder {
         
         if (StringUtility.stringHasValue(selectByExampleQueryId)) {
             xmlElement.addAttribute(new Attribute("selectByExampleQueryId", selectByExampleQueryId)); //$NON-NLS-1$
+        }
+        
+        if (StringUtility.stringHasValue(selectByConditionQueryId)) {
+            xmlElement.addAttribute(new Attribute("selectByConditionQueryId", selectByConditionQueryId)); //$NON-NLS-1$
         }
         
         if (configuredModelType != null) {
