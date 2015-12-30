@@ -904,7 +904,20 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean sqlMapDeleteByPrimaryKeyElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
-
+    
+    /**
+     * This method is called when the deleteByCondition element is generated.
+     * 
+     * @param element the generated &lt;delete&gt; element
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the element should be generated, false
+     *   if the generated element should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean sqlMapDeleteByConditionElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    
     /**
      * This method is called when the exampleWhereClause element is generated.
      * 
@@ -1035,6 +1048,19 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean sqlMapUpdateByExampleSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
+    
+    /**
+     * This method is called when the updateByConditionSelective element is generated.
+     * 
+     * @param element the generated &lt;update&gt; element
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the element should be generated, false
+     *   if the generated element should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean sqlMapUpdateByConditionSelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable);
 
     /**
      * This method is called when the updateByExampleWithBLOBs element is generated.

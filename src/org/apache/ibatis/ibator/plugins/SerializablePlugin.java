@@ -25,6 +25,7 @@ import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
+import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 
 /**
  * This plugin adds the java.io.Serializable marker interface to all generated
@@ -98,6 +99,27 @@ public class SerializablePlugin extends IbatorPluginAdapter {
 	@Override
 	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
 			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapSelectByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
+			XmlElement element, IntrospectedTable introspectedTable) {
 		// TODO Auto-generated method stub
 		return false;
 	}

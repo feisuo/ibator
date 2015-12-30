@@ -15,11 +15,8 @@
  */
 package org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements;
 
-import java.util.Iterator;
-
 import org.apache.ibatis.ibator.api.FullyQualifiedTable;
 import org.apache.ibatis.ibator.api.IntrospectedColumn;
-import org.apache.ibatis.ibator.api.dom.OutputUtilities;
 import org.apache.ibatis.ibator.api.dom.xml.Attribute;
 import org.apache.ibatis.ibator.api.dom.xml.TextElement;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
@@ -27,13 +24,13 @@ import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
 
 /**
  * 
- * @author Jeff Butler
+ * @author feisuo
  *
  */
-public class UpdateByExampleWithBLOBsElementGenerator extends
+public class UpdateByConditionSelectiveElementGenerator extends
         AbstractXmlElementGenerator {
 
-    public UpdateByExampleWithBLOBsElementGenerator() {
+    public UpdateByConditionSelectiveElementGenerator() {
         super();
     }
 
@@ -43,38 +40,32 @@ public class UpdateByExampleWithBLOBsElementGenerator extends
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
         answer.addAttribute(new Attribute(
-                "id", XmlConstantsYrtz.UPDATE_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID)); //$NON-NLS-1$
+                "id", XmlConstantsYrtz.UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID)); //$NON-NLS-1$
 
         ibatorContext.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
+
         sb.append("update "); //$NON-NLS-1$
         sb.append(table.getAliasedFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));
 
-        // set up for first column
-        sb.setLength(0);
-        sb.append("set "); //$NON-NLS-1$
+        XmlElement dynamicElement = new XmlElement("dynamic"); //$NON-NLS-1$
+        dynamicElement.addAttribute(new Attribute("prepend", "set")); //$NON-NLS-1$ //$NON-NLS-2$
+        answer.addElement(dynamicElement);
 
-        Iterator<IntrospectedColumn> iter = introspectedTable.getAllColumns().iterator();
-        while (iter.hasNext()) {
-            IntrospectedColumn introspectedColumn = iter.next();
+        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
+            XmlElement isNotNullElement = new XmlElement("isNotNull"); //$NON-NLS-1$
+            isNotNullElement.addAttribute(new Attribute("prepend", ",")); //$NON-NLS-1$ //$NON-NLS-2$
+            isNotNullElement.addAttribute(new Attribute("property", introspectedColumn.getJavaProperty("record."))); //$NON-NLS-1$ //$NON-NLS-2$
+            dynamicElement.addElement(isNotNullElement);
 
+            sb.setLength(0);
             sb.append(introspectedColumn.getAliasedEscapedColumnName());
             sb.append(" = "); //$NON-NLS-1$
             sb.append(introspectedColumn.getIbatisFormattedParameterClause("record.")); //$NON-NLS-1$
-
-            if (iter.hasNext()) {
-                sb.append(',');
-            }
-
-            answer.addElement(new TextElement(sb.toString()));
-
-            // set up for the next column
-            if (iter.hasNext()) {
-                sb.setLength(0);
-                OutputUtilities.xmlIndent(sb, 1);
-            }
+            
+            isNotNullElement.addElement(new TextElement(sb.toString()));
         }
 
         XmlElement isParameterPresentElement =
@@ -83,10 +74,10 @@ public class UpdateByExampleWithBLOBsElementGenerator extends
         
         XmlElement includeElement = new XmlElement("include"); //$NON-NLS-1$
         includeElement.addAttribute(new Attribute("refid", //$NON-NLS-1$
-                table.getSqlMapNamespace() + "." + XmlConstantsYrtz.EXAMPLE_WHERE_CLAUSE_ID)); //$NON-NLS-1$
+                table.getSqlMapNamespace() + "." + XmlConstantsYrtz.CONDITION_WHERE_CLAUSE_ID)); //$NON-NLS-1$
         isParameterPresentElement.addElement(includeElement);
 
-        if (ibatorContext.getPlugins().sqlMapUpdateByExampleWithBLOBsElementGenerated(answer, introspectedTable)) {
+        if (ibatorContext.getPlugins().sqlMapUpdateByConditionSelectiveElementGenerated(answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

@@ -28,6 +28,7 @@ import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
 import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
+import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 
 /**
@@ -297,6 +298,27 @@ public class EqualsHashCodePlugin extends IbatorPluginAdapter {
 	@Override
 	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
 			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapSelectByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
+			XmlElement element, IntrospectedTable introspectedTable) {
 		// TODO Auto-generated method stub
 		return false;
 	}

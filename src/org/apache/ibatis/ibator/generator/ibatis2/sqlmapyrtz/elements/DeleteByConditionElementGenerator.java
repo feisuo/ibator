@@ -29,15 +29,15 @@ import org.apache.ibatis.ibator.internal.util.StringUtility;
  * @author feisuo
  *
  */
-public class SelectByConditionElementGenerator extends AbstractXmlElementGenerator {
+public class DeleteByConditionElementGenerator extends AbstractXmlElementGenerator {
 
-    public SelectByConditionElementGenerator() {
+    public DeleteByConditionElementGenerator() {
         super();
     }
 
     @Override
     public void addElements(XmlElement parentElement) {
-	       XmlElement answer = new XmlElement("select"); //$NON-NLS-1$
+	       XmlElement answer = new XmlElement("delete"); //$NON-NLS-1$
 	       FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 	
 	       answer.addAttribute(new Attribute(
@@ -56,7 +56,7 @@ public class SelectByConditionElementGenerator extends AbstractXmlElementGenerat
 	       } else {
 	           // select by primary key, but no primary key class.  Fields
 	           // must be in the base record
-	           parameterType = introspectedTable.getConditionType();   //.getBaseRecordType();
+	           parameterType = introspectedTable.getConditionType();  //.getBaseRecordType();
 	       }
 	       
 	       answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
@@ -65,30 +65,7 @@ public class SelectByConditionElementGenerator extends AbstractXmlElementGenerat
 	       ibatorContext.getCommentGenerator().addComment(answer);
 	
 	       StringBuilder sb = new StringBuilder();
-	       sb.append("select "); //$NON-NLS-1$
-	
-	       boolean comma = false;
-	       if (StringUtility.stringHasValue(introspectedTable.getSelectByPrimaryKeyQueryId())) {
-	           sb.append('\'');
-	           sb.append(introspectedTable.getSelectByPrimaryKeyQueryId());
-	           sb.append("' as QUERYID"); //$NON-NLS-1$
-	           comma = true;
-	       }
-	
-	       for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
-	           if (comma) {
-	               sb.append(", "); //$NON-NLS-1$
-	           } else {
-	               comma = true;
-	           }
-	
-	           sb.append(introspectedColumn.getSelectListPhrase());
-	       }
-	
-	       answer.addElement(new TextElement(sb.toString()));
-	
-	       sb.setLength(0);
-	       sb.append("from "); //$NON-NLS-1$
+	       sb.append("delete from "); //$NON-NLS-1$
 	       sb.append(table.getAliasedFullyQualifiedTableNameAtRuntime());
 	       answer.addElement(new TextElement(sb.toString()));
 	
@@ -100,12 +77,8 @@ public class SelectByConditionElementGenerator extends AbstractXmlElementGenerat
 	       includeElement.addAttribute(new Attribute("refid", //$NON-NLS-1$
 	                sb.toString()));
 	       answer.addElement(includeElement);
-	        
-	       sb.setLength(0);
-	       sb.append("ORDER BY ID DESC LIMIT $startnum$,$pagenum$");
-	       answer.addElement(new TextElement(sb.toString()));
-	
-	       if (ibatorContext.getPlugins().sqlMapSelectByConditionElementGenerated(answer, introspectedTable)) {
+	       
+	       if (ibatorContext.getPlugins().sqlMapDeleteByConditionElementGenerated(answer, introspectedTable)) {
 	           parentElement.addElement(answer);
 	       }
     }

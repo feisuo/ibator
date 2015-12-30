@@ -43,6 +43,11 @@ public class XmlConstantsYrtz {
         
         sb.setLength(0);
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
+        sb.append("deleteByCondition"); //$NON-NLS-1$
+        DELETE_BY_CONDITION_STATEMENT_ID = sb.toString();
+        
+        sb.setLength(0);
+        sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
         sb.append("deleteByPrimaryKey"); //$NON-NLS-1$
         DELETE_BY_PRIMARY_KEY_STATEMENT_ID = sb.toString();
         
@@ -85,6 +90,11 @@ public class XmlConstantsYrtz {
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
         sb.append("updateByExampleSelective"); //$NON-NLS-1$
         UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID = sb.toString();
+        
+        sb.setLength(0);
+        sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
+        sb.append("updateByConditionSelective"); //$NON-NLS-1$
+        UPDATE_BY_CONDITION_SELECTIVE_STATEMENT_ID = sb.toString();
 
         sb.setLength(0);
         sb.append(MergeConstants.NEW_XML_ELEMENT_PREFIX);
@@ -143,6 +153,8 @@ public class XmlConstantsYrtz {
     
     public static final String DELETE_BY_EXAMPLE_STATEMENT_ID;
     
+    public static final String DELETE_BY_CONDITION_STATEMENT_ID;
+    
     public static final String DELETE_BY_PRIMARY_KEY_STATEMENT_ID;
     
     public static final String INSERT_STATEMENT_ID;
@@ -160,6 +172,8 @@ public class XmlConstantsYrtz {
     public static final String UPDATE_BY_EXAMPLE_STATEMENT_ID;
 
     public static final String UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID;
+    
+    public static final String UPDATE_BY_CONDITION_SELECTIVE_STATEMENT_ID;
 
     public static final String UPDATE_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID;
 

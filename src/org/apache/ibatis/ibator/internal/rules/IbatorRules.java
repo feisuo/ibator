@@ -166,6 +166,19 @@ public abstract class IbatorRules {
     }
     
     /**
+     * Implements the rule for generating the delete by condition SQL Map element
+     * and DAO method. If the deleteByExample statement is allowed, then
+     * generate the element and method.
+     * 
+     * @return true if the element and method should be generated
+     */
+    public boolean generateDeleteByCondition() {
+        boolean rc = tableConfiguration.isDeleteByConditionStatementEnabled();
+
+        return rc;
+    }
+    
+    /**
      * Implements the rule for generating the result map without BLOBs. If
      * either select method is allowed, then generate the result map.
      * 
@@ -280,6 +293,12 @@ public abstract class IbatorRules {
 
     public boolean generateUpdateByExampleSelective() {
         boolean rc = tableConfiguration.isUpdateByExampleStatementEnabled();
+
+        return rc;
+    }
+    
+    public boolean generateUpdateByConditionSelective() {
+        boolean rc = tableConfiguration.isUpdateByConditionStatementEnabled();
 
         return rc;
     }

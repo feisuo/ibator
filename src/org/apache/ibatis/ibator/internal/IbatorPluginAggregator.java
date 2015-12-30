@@ -999,4 +999,18 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
         }
     }
 
+	@Override
+	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
+			XmlElement element, IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

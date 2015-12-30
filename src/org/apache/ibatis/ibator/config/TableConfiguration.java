@@ -47,10 +47,14 @@ public class TableConfiguration extends PropertyHolder {
 	private boolean deleteByPrimaryKeyStatementEnabled;
 
 	private boolean deleteByExampleStatementEnabled;
+	
+	private boolean deleteByConditionStatementEnabled;
     
     private boolean countByExampleStatementEnabled;
     
     private boolean updateByExampleStatementEnabled;
+    
+    private boolean updateByConditionStatementEnabled;
     
 	private List<ColumnOverride> columnOverrides;
 
@@ -90,9 +94,11 @@ public class TableConfiguration extends PropertyHolder {
 		updateByPrimaryKeyStatementEnabled = true;
 		deleteByPrimaryKeyStatementEnabled = true;
 		deleteByExampleStatementEnabled = true;
+		deleteByConditionStatementEnabled = true;
         countByExampleStatementEnabled = true;
         updateByExampleStatementEnabled = true;
         
+        updateByConditionStatementEnabled = true;
         selectByConditionStatementEnabled = true;
 	}
 
@@ -253,10 +259,19 @@ public class TableConfiguration extends PropertyHolder {
 	public boolean isDeleteByExampleStatementEnabled() {
 		return deleteByExampleStatementEnabled;
 	}
+	
+	public boolean isDeleteByConditionStatementEnabled(){
+		return deleteByConditionStatementEnabled;
+	}
 
 	public void setDeleteByExampleStatementEnabled(
 			boolean deleteByExampleStatementEnabled) {
 		this.deleteByExampleStatementEnabled = deleteByExampleStatementEnabled;
+	}
+	
+	public void setDeleteByConditioinStatementEnabled(
+			boolean deleteByConditionStatementEnabled) {
+		this.deleteByConditionStatementEnabled = deleteByConditionStatementEnabled;
 	}
 	
 	public boolean areAnyStatementsEnabled() {
@@ -268,7 +283,8 @@ public class TableConfiguration extends PropertyHolder {
 	    	|| deleteByPrimaryKeyStatementEnabled
             || countByExampleStatementEnabled
             || updateByExampleStatementEnabled
-            || selectByConditionStatementEnabled;
+            || selectByConditionStatementEnabled
+            || deleteByConditionStatementEnabled;
 	}
 
     public void setGeneratedKey(GeneratedKey generatedKey) {
@@ -403,6 +419,10 @@ public class TableConfiguration extends PropertyHolder {
         if (!deleteByExampleStatementEnabled) {
             xmlElement.addAttribute(new Attribute("enableDeleteByExample", "false")); //$NON-NLS-1$ //$NON-NLS-2$
         }
+        
+        if (!deleteByConditionStatementEnabled) {
+            xmlElement.addAttribute(new Attribute("enableDeleteByCondition", "false")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
 
         if (!countByExampleStatementEnabled) {
             xmlElement.addAttribute(new Attribute("enableCountByExample", "false")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -410,6 +430,10 @@ public class TableConfiguration extends PropertyHolder {
 
         if (!updateByExampleStatementEnabled) {
             xmlElement.addAttribute(new Attribute("enableUpdateByExample", "false")); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+        
+        if (!updateByConditionStatementEnabled) {
+            xmlElement.addAttribute(new Attribute("enableUpdateByCondition", "false")); //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         if (StringUtility.stringHasValue(selectByPrimaryKeyQueryId)) {
@@ -481,6 +505,10 @@ public class TableConfiguration extends PropertyHolder {
 
     public boolean isUpdateByExampleStatementEnabled() {
         return updateByExampleStatementEnabled;
+    }
+    
+    public boolean isUpdateByConditionStatementEnabled() {
+        return updateByConditionStatementEnabled;
     }
 
     public void setUpdateByExampleStatementEnabled(

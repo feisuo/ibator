@@ -25,6 +25,7 @@ import org.apache.ibatis.ibator.api.IntrospectedTable;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
+import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.internal.util.StringUtility;
 import org.apache.ibatis.ibator.internal.util.messages.Messages;
 
@@ -112,6 +113,27 @@ public class RenameExampleClassPlugin extends IbatorPluginAdapter {
 	@Override
 	public boolean serviceImplementationGenerated(TopLevelClass topLevelClass,
 			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapSelectByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
+			XmlElement element, IntrospectedTable introspectedTable) {
 		// TODO Auto-generated method stub
 		return false;
 	}
