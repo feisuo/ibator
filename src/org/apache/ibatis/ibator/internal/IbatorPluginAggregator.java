@@ -853,8 +853,43 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 
         return rc;
     }
+    
+    
 
-    public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles() {
+    @Override
+	public boolean daoSelectByConditionMethodGenerated(Method method,
+			TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+
+        boolean rc = true;
+
+        for (IbatorPlugin plugin : plugins) {
+            if (!plugin.daoSelectByConditionMethodGenerated(method,
+                    topLevelClass, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+	}
+
+	@Override
+	public boolean daoSelectByConditionMethodGenerated(Method method,
+			Interface interfaze, IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (IbatorPlugin plugin : plugins) {
+            if (!plugin.daoSelectByConditionMethodGenerated(method,
+            		interfaze, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+	}
+
+	public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles() {
         List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
         for (IbatorPlugin plugin : plugins) {
             List<GeneratedJavaFile> temp = plugin
@@ -1002,15 +1037,13 @@ public final class IbatorPluginAggregator implements IbatorPlugin {
 	@Override
 	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
 			IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
 			XmlElement element, IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

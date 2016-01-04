@@ -37,6 +37,9 @@ public class SelectByConditionElementGenerator extends AbstractXmlElementGenerat
 
     @Override
     public void addElements(XmlElement parentElement) {
+    	
+           ibatorContext.getCommentGenerator().addComment(parentElement,"selectByCondition");
+    	
 	       XmlElement answer = new XmlElement("select"); //$NON-NLS-1$
 	       FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 	
@@ -46,23 +49,12 @@ public class SelectByConditionElementGenerator extends AbstractXmlElementGenerat
 	           answer.addAttribute(new Attribute("resultMap", //$NON-NLS-1$
 	                   XmlConstantsYrtz.RESULT_MAP_WITH_BLOBS_ID));
 	       } else {
-	           answer.addAttribute(new Attribute("resultMap", //$NON-NLS-1$
-	                   XmlConstantsYrtz.BASE_RESULT_MAP_ID));
+	           answer.addAttribute(new Attribute("resultClass", //$NON-NLS-1$
+	        		   table.getDomainObjectName()));
 	       }
-	       
-	       FullyQualifiedJavaType parameterType;
-	       if (introspectedTable.getRules().generatePrimaryKeyClass()) {
-	           parameterType = introspectedTable.getPrimaryKeyType();
-	       } else {
-	           // select by primary key, but no primary key class.  Fields
-	           // must be in the base record
-	           parameterType = introspectedTable.getConditionType();   //.getBaseRecordType();
-	       }
-	       
 	       answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
-	               parameterType.getFullyQualifiedName()));
+	    		   table.getDomainObjectName()+"Condition"));
 	
-	       ibatorContext.getCommentGenerator().addComment(answer);
 	
 	       StringBuilder sb = new StringBuilder();
 	       sb.append("select "); //$NON-NLS-1$
@@ -90,12 +82,13 @@ public class SelectByConditionElementGenerator extends AbstractXmlElementGenerat
 	       sb.setLength(0);
 	       sb.append("from "); //$NON-NLS-1$
 	       sb.append(table.getAliasedFullyQualifiedTableNameAtRuntime());
+	       sb.append(" where 1=1 ");
 	       answer.addElement(new TextElement(sb.toString()));
 	
 	       XmlElement includeElement = new XmlElement("include"); //$NON-NLS-1$
 	       sb.setLength(0);
-	       sb.append(table.getSqlMapNamespace());
-	       sb.append('.');
+//	       sb.append(table.getSqlMapNamespace());
+//	       sb.append('.');
 	       sb.append(XmlConstantsYrtz.CONDITION_WHERE_CLAUSE_ID);
 	       includeElement.addAttribute(new Attribute("refid", //$NON-NLS-1$
 	                sb.toString()));

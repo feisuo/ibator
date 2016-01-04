@@ -22,6 +22,7 @@ import org.apache.ibatis.ibator.api.dom.xml.Document;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.generator.AbstractXmlGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
+import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.DeleteByPrimaryKeyElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.AbstractXmlElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.ConditionWhereClauseElementGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.sqlmapyrtz.elements.CountByConditionElementGenerator;
@@ -59,13 +60,14 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
         
         
         addTypeAliasElement(introspectedTable,answer);
-        addResultMapWithoutBLOBsElement(answer);
-        addResultMapWithBLOBsElement(answer);
+//        addResultMapWithoutBLOBsElement(answer);
+//        addResultMapWithBLOBsElement(answer);
         addConditionWhereClauseElement(answer);
         addCountByConditionElement(answer);
         addSelectByPrimaryKeyElement(answer);
         addSelectByConditionElement(answer);
-        addDeleteByConditionElement(answer);
+//        addDeleteByConditionElement(answer);
+        addDeleteByPrimaryKeyElement(answer);
         addInsertElement(answer);
         addInsertSelectiveElement(answer);
         addUpdateByConditionSelectiveElement(answer);
@@ -104,6 +106,12 @@ public class SqlMapGenerator extends AbstractXmlGenerator {
         }
     }
     
+    protected void addDeleteByPrimaryKeyElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateDeleteByPrimaryKey()) {
+            DeleteByPrimaryKeyElementGenerator elementGenerator = new DeleteByPrimaryKeyElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
     
     protected void addConditionWhereClauseElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateSQLExampleWhereClause()) {

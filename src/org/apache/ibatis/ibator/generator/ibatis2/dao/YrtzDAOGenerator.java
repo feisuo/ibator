@@ -35,6 +35,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.DeleteByExamp
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.DeleteByPrimaryKeyMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.InsertMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.InsertSelectiveMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.SelectByConditionMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.SelectByPrimaryKeyMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.UpdateByExampleSelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz.UpdateByPrimaryKeySelectiveMethodGenerator;
@@ -68,6 +69,8 @@ public class YrtzDAOGenerator extends AbstractJavaGenerator {
         Interface interfaze = getInterfaceShell();
         
         addCountMethod(topLevelClass, interfaze);
+        addSelectByPrimaryKeyMethod(topLevelClass, interfaze);
+        addSelectByConditionMethod(topLevelClass,interfaze);
         addDeleteByPrimaryKeyMethod(topLevelClass, interfaze);
         addInsertMethod(topLevelClass, interfaze);
         addInsertSelectiveMethod(topLevelClass, interfaze);
@@ -189,6 +192,12 @@ public class YrtzDAOGenerator extends AbstractJavaGenerator {
         }
     }
     
+    protected void addSelectByConditionMethod(TopLevelClass topLevelClass, Interface interfaze) {
+        if (introspectedTable.getRules().generateSelectByPrimaryKey()) {
+            AbstractDAOElementGenerator methodGenerator = new SelectByConditionMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+    }
     
     protected void addUpdateByExampleSelectiveMethod(TopLevelClass topLevelClass, Interface interfaze) {
         if (introspectedTable.getRules().generateUpdateByExampleSelective()) {

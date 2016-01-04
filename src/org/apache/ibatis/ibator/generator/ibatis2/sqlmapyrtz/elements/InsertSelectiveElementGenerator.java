@@ -37,18 +37,19 @@ public class InsertSelectiveElementGenerator extends AbstractXmlElementGenerator
 
     @Override
     public void addElements(XmlElement parentElement) {
+        ibatorContext.getCommentGenerator().addComment(parentElement,"insertSelective");
+    	
         XmlElement answer = new XmlElement("insert"); //$NON-NLS-1$
-
+ 
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         answer.addAttribute(new Attribute("id", XmlConstantsYrtz.INSERT_SELECTIVE_STATEMENT_ID)); //$NON-NLS-1$
         
-        FullyQualifiedJavaType parameterType =
-            introspectedTable.getRules().calculateAllFieldsClass();
+//        FullyQualifiedJavaType parameterType =
+//            introspectedTable.getRules().calculateAllFieldsClass();
         
         answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
-                parameterType.getFullyQualifiedName()));
+                table.getDomainObjectName()));
 
-        ibatorContext.getCommentGenerator().addComment(answer);
 
         GeneratedKey gk = introspectedTable.getGeneratedKey();
 

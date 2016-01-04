@@ -336,7 +336,24 @@ public interface IbatorPlugin {
      *   will disable the calling of further plugins.
      */
     boolean daoSelectByPrimaryKeyMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
-    
+   
+    /**
+     * This method is called when the selectByPrimaryKey method has been
+     * generated in the DAO implementation class.
+     * 
+     * @param method the generated selectByPrimaryKey method
+     * @param topLevelClass the partially implemented DAO implementation
+     *   class.  You can add additional imported classes to the 
+     *   implementation class if necessary.
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the method should be generated, false
+     *   if the generated method should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean daoSelectByConditionMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable);
+
     /**
      * This method is called when the updateByExampleSelective method has been
      * generated in the DAO implementation class.
@@ -575,6 +592,24 @@ public interface IbatorPlugin {
      */
     boolean daoSelectByPrimaryKeyMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
     
+    
+    /**
+     * This method is called when the selectByCondition method has been
+     * generated in the DAO interface class.
+     * 
+     * @param method the generated selectByPrimaryKey method
+     * @param interfaze the partially implemented DAO interface
+     *   class.  You can add additional imported classes to the 
+     *   interface class if necessary.
+     * @param introspectedTable ibator's class containing information
+     *   about the table as introspected from the database
+     * @return true if the method should be generated, false
+     *   if the generated method should be ignored.  In the case
+     *   of multiple plugins, the first plugin returning false
+     *   will disable the calling of further plugins.
+     */
+    boolean daoSelectByConditionMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable);
+
     /**
      * This method is called when the updateByExampleSelective method has been
      * generated in the DAO interface class.

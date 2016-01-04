@@ -103,24 +103,4 @@ public class SerializablePlugin extends IbatorPluginAdapter {
 		return false;
 	}
 
-	@Override
-	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
-			IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean sqlMapSelectByConditionElementGenerated(XmlElement element,
-			IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
-			XmlElement element, IntrospectedTable introspectedTable) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

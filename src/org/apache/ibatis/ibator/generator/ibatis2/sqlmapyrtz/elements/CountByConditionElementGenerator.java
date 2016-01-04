@@ -24,7 +24,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
 
 /**
  * 
- * @author Jeff Butler
+ * @author feisuo
  *
  */
 public class CountByConditionElementGenerator extends AbstractXmlElementGenerator {
@@ -35,29 +35,31 @@ public class CountByConditionElementGenerator extends AbstractXmlElementGenerato
 
     @Override
     public void addElements(XmlElement parentElement) {
+    	
+    	ibatorContext.getCommentGenerator().addComment(parentElement,"countByCondition");
+    	
         XmlElement answer = new XmlElement("select"); //$NON-NLS-1$
 
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
-        FullyQualifiedJavaType fqjt = introspectedTable.getConditionType();
 
         answer.addAttribute(new Attribute(
                         "id", XmlConstantsYrtz.COUNT_BY_CONDITION_STATEMENT_ID)); //$NON-NLS-1$
         answer.addAttribute(new Attribute(
-                "parameterClass", fqjt.getFullyQualifiedName())); //$NON-NLS-1$
+                "parameterClass", table.getDomainObjectName()+"Condition")); //$NON-NLS-1$
         answer.addAttribute(new Attribute(
                 "resultClass", "java.lang.Integer")); //$NON-NLS-1$ //$NON-NLS-2$
 
-        ibatorContext.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
         sb.append("select count(*) from "); //$NON-NLS-1$
         sb.append(table.getAliasedFullyQualifiedTableNameAtRuntime());
+        sb.append(" where 1=1 ");
         answer.addElement(new TextElement(sb.toString()));
 
         XmlElement includeElement = new XmlElement("include"); //$NON-NLS-1$
         sb.setLength(0);
-        sb.append(table.getSqlMapNamespace());
-        sb.append('.');
+//        sb.append(table.getSqlMapNamespace());
+//        sb.append('.');
         sb.append(XmlConstantsYrtz.CONDITION_WHERE_CLAUSE_ID);
         includeElement.addAttribute(new Attribute("refid", //$NON-NLS-1$
                 sb.toString()));

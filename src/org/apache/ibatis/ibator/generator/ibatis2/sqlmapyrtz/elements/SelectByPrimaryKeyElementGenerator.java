@@ -37,6 +37,9 @@ public class SelectByPrimaryKeyElementGenerator extends AbstractXmlElementGenera
 
     @Override
     public void addElements(XmlElement parentElement) {
+    	
+        ibatorContext.getCommentGenerator().addComment(parentElement,"selectByPrimaryKey");
+    	
         XmlElement answer = new XmlElement("select"); //$NON-NLS-1$
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
@@ -46,8 +49,8 @@ public class SelectByPrimaryKeyElementGenerator extends AbstractXmlElementGenera
             answer.addAttribute(new Attribute("resultMap", //$NON-NLS-1$
                     XmlConstantsYrtz.RESULT_MAP_WITH_BLOBS_ID));
         } else {
-            answer.addAttribute(new Attribute("resultMap", //$NON-NLS-1$
-                    XmlConstantsYrtz.BASE_RESULT_MAP_ID));
+            answer.addAttribute(new Attribute("resultClass", //$NON-NLS-1$
+                    table.getDomainObjectName()));
         }
         
         FullyQualifiedJavaType parameterType;
@@ -60,9 +63,8 @@ public class SelectByPrimaryKeyElementGenerator extends AbstractXmlElementGenera
         }
         
         answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
-                parameterType.getFullyQualifiedName()));
+                table.getDomainObjectName()));
 
-        ibatorContext.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
         sb.append("select "); //$NON-NLS-1$

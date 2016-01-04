@@ -37,6 +37,7 @@ import org.apache.ibatis.ibator.generator.ibatis2.service.elements.DeleteByExamp
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.InsertMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.InsertSelectiveMethodGenerator;
+import org.apache.ibatis.ibator.generator.ibatis2.service.elements.SelectByConditionMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.SelectByPrimaryKeyMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.UpdateByExampleSelectiveMethodGenerator;
 import org.apache.ibatis.ibator.generator.ibatis2.service.elements.UpdateByPrimaryKeySelectiveMethodGenerator;
@@ -70,6 +71,8 @@ public class YrtzServiceGenerator extends AbstractJavaGenerator {
         Interface interfaze = getInterfaceShell();
         
         addCountByConditionMethod(topLevelClass, interfaze);
+        addSelectByConditionMethod(topLevelClass,interfaze);
+        addSelectByPrimaryKeyMethod(topLevelClass,interfaze);
         addDeleteByPrimaryKeyMethod(topLevelClass, interfaze);
         addInsertMethod(topLevelClass, interfaze);
         addInsertSelectiveMethod(topLevelClass, interfaze);
@@ -218,6 +221,13 @@ public class YrtzServiceGenerator extends AbstractJavaGenerator {
     protected void addCountByConditionMethod(TopLevelClass topLevelClass, Interface interfaze) {
         if (introspectedTable.getRules().generateCountByExample()) {
         	AbstractServiceElementGenerator methodGenerator = new CountByConditionMethodGenerator(generateForJava5);
+            initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
+        }
+    }
+    
+    protected void addSelectByConditionMethod(TopLevelClass topLevelClass, Interface interfaze) {
+        if (introspectedTable.getRules().generateCountByExample()) {
+        	AbstractServiceElementGenerator methodGenerator = new SelectByConditionMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, topLevelClass, interfaze);
         }
     }

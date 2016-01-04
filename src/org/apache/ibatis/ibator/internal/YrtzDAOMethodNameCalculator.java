@@ -154,8 +154,16 @@ public class YrtzDAOMethodNameCalculator implements DAOMethodNameCalculator {
             return "updateByConditionWithoutBLOBs"; //$NON-NLS-1$
         }
     }
+    
+    
 
-    public String getInsertSelectiveMethodName(IntrospectedTable introspectedTable) {
+    @Override
+	public String getSelectByConditionMethodName(
+			IntrospectedTable introspectedTable) {
+    	return "selectByCondition"; //$NON-NLS-1$
+	}
+
+	public String getInsertSelectiveMethodName(IntrospectedTable introspectedTable) {
         return "insertSelective"; //$NON-NLS-1$
     }
 }

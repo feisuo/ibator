@@ -147,6 +147,7 @@ public class XmlConstants {
     public static final String SELECT_BY_PRIMARY_KEY_STATEMENT_ID;
     
     public static final String UPDATE_BY_EXAMPLE_STATEMENT_ID;
+    
 
     public static final String UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID;
 

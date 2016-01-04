@@ -77,6 +77,14 @@ public interface DAOMethodNameCalculator {
     String getSelectByPrimaryKeyMethodName(IntrospectedTable introspectedTable);
     
     /**
+     * Calculates and returns a name for the select by primary key method.
+     * 
+     * @param introspectedTable
+     * @return the calculated name
+     */
+    String getSelectByConditionMethodName(IntrospectedTable introspectedTable);
+    
+    /**
      * Calculates and returns a name for the select by example method.
      * 
      * @param introspectedTable

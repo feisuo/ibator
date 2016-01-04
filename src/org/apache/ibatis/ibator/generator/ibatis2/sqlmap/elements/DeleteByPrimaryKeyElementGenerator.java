@@ -22,10 +22,11 @@ import org.apache.ibatis.ibator.api.dom.xml.Attribute;
 import org.apache.ibatis.ibator.api.dom.xml.TextElement;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
+import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
 
 /**
  * 
- * @author Jeff Butler
+ * @author feisuo
  *
  */
 public class DeleteByPrimaryKeyElementGenerator extends AbstractXmlElementGenerator {
@@ -40,7 +41,7 @@ public class DeleteByPrimaryKeyElementGenerator extends AbstractXmlElementGenera
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
         answer.addAttribute(new Attribute(
-                "id", XmlConstants.DELETE_BY_PRIMARY_KEY_STATEMENT_ID)); //$NON-NLS-1$
+                "id", XmlConstantsYrtz.DELETE_BY_PRIMARY_KEY_STATEMENT_ID)); //$NON-NLS-1$
         FullyQualifiedJavaType parameterClass;
         if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             parameterClass = introspectedTable.getPrimaryKeyType();

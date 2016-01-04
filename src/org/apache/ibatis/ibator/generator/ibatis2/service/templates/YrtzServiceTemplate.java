@@ -74,6 +74,6 @@ public class YrtzServiceTemplate extends AbstractServiceTemplate {
     
     @Override
     protected void configureCheckedExceptions() {
-        addCheckedException(new FullyQualifiedJavaType("java.sql.SQLException")); //$NON-NLS-1$
+        addCheckedException(new FullyQualifiedJavaType("java.lang.Exception")); //$NON-NLS-1$
     }
 }

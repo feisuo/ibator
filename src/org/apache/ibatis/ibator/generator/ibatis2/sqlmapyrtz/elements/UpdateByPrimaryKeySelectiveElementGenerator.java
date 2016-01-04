@@ -37,24 +37,18 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
+    	
+        ibatorContext.getCommentGenerator().addComment(parentElement,"updateByPrimaryKey");
+    	
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
         answer.addAttribute(new Attribute(
                 "id", XmlConstantsYrtz.UPDATE_BY_PRIMARY_KEY_SELECTIVE_STATEMENT_ID)); //$NON-NLS-1$
 
-        FullyQualifiedJavaType parameterType;
-        
-        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
-            parameterType = introspectedTable.getRecordWithBLOBsType();
-        } else {
-            parameterType = introspectedTable.getBaseRecordType();
-        }
-        
         answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
-                parameterType.getFullyQualifiedName()));
+                table.getDomainObjectName()));
 
-        ibatorContext.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
 

@@ -36,13 +36,15 @@ public class UpdateByConditionSelectiveElementGenerator extends
 
     @Override
     public void addElements(XmlElement parentElement) {
+    	
+        ibatorContext.getCommentGenerator().addComment(parentElement,"updateByCondition");
+    	
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
         answer.addAttribute(new Attribute(
-                "id", XmlConstantsYrtz.UPDATE_BY_EXAMPLE_SELECTIVE_STATEMENT_ID)); //$NON-NLS-1$
+                "id", XmlConstantsYrtz.UPDATE_BY_CONDITION_SELECTIVE_STATEMENT_ID)); //$NON-NLS-1$
 
-        ibatorContext.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
 
@@ -63,7 +65,7 @@ public class UpdateByConditionSelectiveElementGenerator extends
             sb.setLength(0);
             sb.append(introspectedColumn.getAliasedEscapedColumnName());
             sb.append(" = "); //$NON-NLS-1$
-            sb.append(introspectedColumn.getIbatisFormattedParameterClause("record.")); //$NON-NLS-1$
+            sb.append(introspectedColumn.getIbatisFormattedParameterClause()); //$NON-NLS-1$
             
             isNotNullElement.addElement(new TextElement(sb.toString()));
         }
@@ -74,7 +76,7 @@ public class UpdateByConditionSelectiveElementGenerator extends
         
         XmlElement includeElement = new XmlElement("include"); //$NON-NLS-1$
         includeElement.addAttribute(new Attribute("refid", //$NON-NLS-1$
-                table.getSqlMapNamespace() + "." + XmlConstantsYrtz.CONDITION_WHERE_CLAUSE_ID)); //$NON-NLS-1$
+                XmlConstantsYrtz.CONDITION_WHERE_CLAUSE_ID)); //$NON-NLS-1$
         isParameterPresentElement.addElement(includeElement);
 
         if (ibatorContext.getPlugins().sqlMapUpdateByConditionSelectiveElementGenerated(answer, introspectedTable)) {

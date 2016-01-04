@@ -21,11 +21,12 @@ import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.xml.Attribute;
 import org.apache.ibatis.ibator.api.dom.xml.TextElement;
 import org.apache.ibatis.ibator.api.dom.xml.XmlElement;
+import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
 
 /**
  * 
- * @author Jeff Butler
+ * @author feisuo
  *
  */
 public class DeleteByPrimaryKeyElementGenerator extends AbstractXmlElementGenerator {
@@ -36,21 +37,17 @@ public class DeleteByPrimaryKeyElementGenerator extends AbstractXmlElementGenera
 
     @Override
     public void addElements(XmlElement parentElement) {
+        ibatorContext.getCommentGenerator().addComment(parentElement,"deleteByPrimaryKey");
+    	
         XmlElement answer = new XmlElement("delete"); //$NON-NLS-1$
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
         answer.addAttribute(new Attribute(
                 "id", XmlConstantsYrtz.DELETE_BY_PRIMARY_KEY_STATEMENT_ID)); //$NON-NLS-1$
-        FullyQualifiedJavaType parameterClass;
-        if (introspectedTable.getRules().generatePrimaryKeyClass()) {
-            parameterClass = introspectedTable.getPrimaryKeyType();
-        } else {
-            parameterClass = introspectedTable.getBaseRecordType();
-        }
-        answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
-                parameterClass.getFullyQualifiedName()));
 
-        ibatorContext.getCommentGenerator().addComment(answer);
+        answer.addAttribute(new Attribute("parameterClass", //$NON-NLS-1$
+                table.getDomainObjectName()+"Condition"));
+
 
         StringBuilder sb = new StringBuilder();
         sb.append("delete from "); //$NON-NLS-1$

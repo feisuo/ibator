@@ -214,19 +214,24 @@ public class YrtzCommentGenerator implements CommentGenerator {
      * @author feisuo
      */
     public void addComment(XmlElement xmlElement,String comment) {
-        xmlElement.addElement(new TextElement("<!--")); //$NON-NLS-1$
-        xmlElement.addElement(new TextElement(comment)); //$NON-NLS-1$
+    	
+    	StringBuilder sb = new StringBuilder();
+    	xmlElement.addElement(new TextElement("<!--"));
+    	sb.append(" ");
+    	sb.append(comment);
+    	sb.append(" ");
+    	xmlElement.addElement(new TextElement(sb.toString())); //$NON-NLS-1$
+    	xmlElement.addElement(new TextElement("-->"));
 
-        String s = getDateString();
-        if (s != null) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("  This element was generated on "); //$NON-NLS-1$
-            sb.append(s);
-            sb.append('.');
-            xmlElement.addElement(new TextElement(sb.toString()));
-        }
-
-        xmlElement.addElement(new TextElement("-->")); //$NON-NLS-1$
+//        String s = getDateString();
+//        if (s != null) {
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("  This element was generated on "); //$NON-NLS-1$
+//            sb.append(s);
+//            sb.append('.');
+//            xmlElement.addElement(new TextElement(sb.toString()));
+//        }
+      
     }
 
 

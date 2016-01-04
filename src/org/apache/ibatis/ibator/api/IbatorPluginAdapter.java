@@ -307,7 +307,27 @@ public abstract class IbatorPluginAdapter implements IbatorPlugin {
     public boolean daoInsertSelectiveMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;
     }
+    
+    
 
-    public void initialized(IntrospectedTable introspectedTable) {
+    @Override
+	public boolean sqlMapDeleteByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		return true;
+	}
+
+	@Override
+	public boolean sqlMapSelectByConditionElementGenerated(XmlElement element,
+			IntrospectedTable introspectedTable) {
+		return true;
+	}
+
+	@Override
+	public boolean sqlMapUpdateByConditionSelectiveElementGenerated(
+			XmlElement element, IntrospectedTable introspectedTable) {
+		return true;
+	}
+
+	public void initialized(IntrospectedTable introspectedTable) {
     }
 }

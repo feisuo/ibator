@@ -13,12 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.ibatis.ibator.generator.ibatis2.dao.elementsYrtz;
+package org.apache.ibatis.ibator.generator.ibatis2.service.elements;
 
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.ibatis.ibator.api.FullyQualifiedTable;
+import org.apache.ibatis.ibator.api.IntrospectedColumn;
 import org.apache.ibatis.ibator.api.dom.java.FullyQualifiedJavaType;
 import org.apache.ibatis.ibator.api.dom.java.Interface;
 import org.apache.ibatis.ibator.api.dom.java.JavaVisibility;
@@ -26,44 +27,42 @@ import org.apache.ibatis.ibator.api.dom.java.Method;
 import org.apache.ibatis.ibator.api.dom.java.Parameter;
 import org.apache.ibatis.ibator.api.dom.java.TopLevelClass;
 import org.apache.ibatis.ibator.generator.ibatis2.XmlConstants;
-import org.apache.ibatis.ibator.generator.ibatis2.XmlConstantsYrtz;
+import org.apache.ibatis.ibator.internal.util.JavaBeansUtil;
 
 /**
  * 
  * @author feisuo
  *
  */
-public class CountMethodGenerator extends AbstractDAOElementGenerator {
+public class SelectByConditionMethodGenerator extends AbstractServiceElementGenerator {
 
-    private boolean generateForJava5;
-    
-    public CountMethodGenerator(boolean generateForJava5) {
+    public SelectByConditionMethodGenerator() {
         super();
-        this.generateForJava5 = generateForJava5;
     }
 
     @Override
     public void addImplementationElements(TopLevelClass topLevelClass) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = getMethodShell(importedTypes);
-        FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
 
         // generate the implementation method
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Integer count = (Integer)  "); //$NON-NLS-1$
-        sb.append(daoTemplate.getQueryForObjectMethod(table
-                .getSqlMapNamespace(),
-                XmlConstantsYrtz.COUNT_BY_CONDITION_STATEMENT_ID, "condition")); //$NON-NLS-1$
-        method.addBodyLine(sb.toString());
 
-        if (generateForJava5) {
-            method.addBodyLine("return count;"); //$NON-NLS-1$
-        } else {
-            method.addBodyLine("return count.intValue();"); //$NON-NLS-1$
-        }
+        FullyQualifiedJavaType dao = introspectedTable.getDAOInterfaceType();
         
-        if (ibatorContext.getPlugins().daoCountByExampleMethodGenerated(method, topLevelClass, introspectedTable)) {
+        FullyQualifiedJavaType returnType = method.getReturnType();
+
+        sb.setLength(0);
+        sb.append(returnType.getShortName());
+        sb.append(" records = "); //$NON-NLS-1$
+        sb.append(serviceTemplate.getQueryForObjectMethod(
+        		JavaBeansUtil.getPropertyName(dao.getShortName()),
+        		getServiceMethodNameCalculator().getSelectByConditionMethodName(introspectedTable), "condition")); //$NON-NLS-1$
+        method.addBodyLine(sb.toString());
+        method.addBodyLine("return records;"); //$NON-NLS-1$
+
+        if (ibatorContext.getPlugins().daoSelectByConditionMethodGenerated(method, topLevelClass, introspectedTable)) {
             topLevelClass.addImportedTypes(importedTypes);
             topLevelClass.addMethod(method);
         }
@@ -71,30 +70,35 @@ public class CountMethodGenerator extends AbstractDAOElementGenerator {
 
     @Override
     public void addInterfaceElements(Interface interfaze) {
-        if (getExampleMethodVisibility() == JavaVisibility.PUBLIC) {
-            Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
-            Method method = getMethodShell(importedTypes);
-            
-            if (ibatorContext.getPlugins().daoCountByExampleMethodGenerated(method, interfaze, introspectedTable)) {
-                interfaze.addImportedTypes(importedTypes);
-                interfaze.addMethod(method);
-            }
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
+        Method method = getMethodShell(importedTypes);
+        
+        if (ibatorContext.getPlugins().daoSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
+            interfaze.addImportedTypes(importedTypes);
+            interfaze.addMethod(method);
         }
     }
-
+    
     private Method getMethodShell(Set<FullyQualifiedJavaType> importedTypes) {
         FullyQualifiedTable table = introspectedTable.getFullyQualifiedTable();
         FullyQualifiedJavaType type = introspectedTable.getConditionType();
-        importedTypes.add(type);
-
+        
         Method method = new Method();
-        method.setVisibility(getExampleMethodVisibility());
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.setName(getDAOMethodNameCalculator()
-                .getCountByExampleMethodName(introspectedTable));
-        method.addParameter(new Parameter(type, "condition")); //$NON-NLS-1$
+        method.setVisibility(JavaVisibility.PUBLIC);
 
-        for (FullyQualifiedJavaType fqjt : daoTemplate.getCheckedExceptions()) {
+        FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
+        returnType.addTypeArgument(introspectedTable.getConditionType());
+        method.setReturnType(returnType);
+        importedTypes.add(returnType);
+        importedTypes.add(introspectedTable.getConditionType());
+
+        method.setName(getServiceMethodNameCalculator()
+                .getSelectByConditionMethodName(introspectedTable));
+        
+        method.addParameter(new Parameter(type,"condition"));
+
+
+        for (FullyQualifiedJavaType fqjt : serviceTemplate.getCheckedExceptions()) {
             method.addException(fqjt);
             importedTypes.add(fqjt);
         }
